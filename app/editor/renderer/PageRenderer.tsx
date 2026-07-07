@@ -1,3 +1,5 @@
+"use client";
+
 import { DocumentPage } from "../types/page";
 import BlockRenderer from "./BlockRenderer";
 

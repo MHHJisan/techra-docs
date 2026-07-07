@@ -1,3 +1,5 @@
+"use client";
+
 import { Block } from "../types/block";
 import TextBlock from "../blocks/TextBlock";
 

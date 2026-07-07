@@ -1,3 +1,5 @@
+"use client";
+
 import { TextBlock as TextBlockType } from "../types/block";
 
 interface Props {
@@ -7,19 +9,25 @@ interface Props {
 export default function TextBlock({ block }: Props) {
   return (
     <div
-      className="absolute cursor-text"
+      className="absolute select-none"
       style={{
         left: block.x,
         top: block.y,
+
         width: block.width,
+
         minHeight: block.height,
 
-        fontFamily: block.fontFamily,
         fontSize: block.fontSize,
+
+        fontFamily: block.fontFamily,
+
         color: block.color,
 
         fontWeight: block.bold ? "bold" : "normal",
+
         fontStyle: block.italic ? "italic" : "normal",
+
         textDecoration: block.underline ? "underline" : "none",
 
         textAlign: block.align,
