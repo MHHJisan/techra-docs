@@ -1,24 +1,66 @@
 "use client";
 
-import { Bell, Search, Settings } from "lucide-react";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+
+import { Bell, Search, Settings, ChevronDown, Languages } from "lucide-react";
+
+import { useEditorStore } from "../store/editor-store";
+
+const LANGUAGES = [
+  {
+    code: "en",
+    label: "English",
+    flag: "🇺🇸",
+  },
+  {
+    code: "bn",
+    label: "বাংলা",
+    flag: "🇧🇩",
+  },
+] as const;
+
+const translations = {
+  en: {
+    navbar: {
+      title: "Techra Docs",
+      search: "Search templates...",
+      role: "Software Engineer",
+    },
+  },
+
+  bn: {
+    navbar: {
+      title: "টেকরা ডকস",
+      search: "টেমপ্লেট খুঁজুন...",
+      role: "সফটওয়্যার ইঞ্জিনিয়ার",
+    },
+  },
+};
 
 export default function Navbar() {
+  const language = useEditorStore((state) => state.language);
+  const setLanguage = useEditorStore((state) => state.setLanguage);
+
+  const t = translations[language];
+
+  const currentLanguage =
+    LANGUAGES.find((lang) => lang.code === language) ?? LANGUAGES[0];
+
   return (
     <header className="flex h-16 items-center justify-between border-b border-gray-200 bg-white px-6">
       {/* Left */}
       <div className="flex items-center gap-8">
-        <h1 className="text-2xl font-bold text-blue-600">Techra Docs</h1>
+        <h1 className="text-2xl font-bold text-blue-600">{t.navbar.title}</h1>
 
-        {/* Search */}
         <div className="relative hidden md:block">
           <Search
             size={18}
-            className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+            className="absolute left-4 top-1/2 -translate-y-1/2 -translate-x-0 text-gray-400"
           />
 
           <input
             type="text"
-            placeholder="Search templates..."
+            placeholder={t.navbar.search}
             className="h-11 w-[420px] rounded-full border border-gray-200 bg-gray-50 pl-11 pr-4 text-sm text-gray-700 outline-none transition-all focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-100"
           />
         </div>
@@ -26,10 +68,47 @@ export default function Navbar() {
 
       {/* Right */}
       <div className="flex items-center gap-4">
+        {/* Language */}
+        <DropdownMenu.Root>
+          <DropdownMenu.Trigger asChild>
+            <button className="flex items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:border-blue-500 hover:text-blue-600 hover:shadow-sm">
+              <Languages size={18} className="text-blue-600" />
+
+              <span>{currentLanguage.flag}</span>
+
+              <span>{currentLanguage.label}</span>
+
+              <ChevronDown size={16} />
+            </button>
+          </DropdownMenu.Trigger>
+
+          <DropdownMenu.Content
+            sideOffset={8}
+            align="end"
+            className="w-44 rounded-xl border border-gray-200 bg-white p-2 shadow-xl"
+          >
+            {LANGUAGES.map((lang) => (
+              <DropdownMenu.Item
+                key={lang.code}
+                onSelect={() => setLanguage(lang.code)}
+                className={`cursor-pointer rounded-lg px-3 py-2 text-sm outline-none ${
+                  language === lang.code
+                    ? "bg-blue-50 font-semibold text-blue-600"
+                    : "hover:bg-blue-50"
+                }`}
+              >
+                {lang.flag} {lang.label}
+              </DropdownMenu.Item>
+            ))}
+          </DropdownMenu.Content>
+        </DropdownMenu.Root>
+
+        {/* Notification */}
         <button className="rounded-full p-2 transition hover:bg-gray-100">
           <Bell size={20} />
         </button>
 
+        {/* Settings */}
         <button className="rounded-full p-2 transition hover:bg-gray-100">
           <Settings size={20} />
         </button>
@@ -45,7 +124,7 @@ export default function Navbar() {
           <div className="hidden text-left lg:block">
             <p className="text-sm font-semibold text-gray-800">Jisan</p>
 
-            <p className="text-xs text-gray-500">Software Engineer</p>
+            <p className="text-xs text-gray-500">{t.navbar.role}</p>
           </div>
         </button>
       </div>
