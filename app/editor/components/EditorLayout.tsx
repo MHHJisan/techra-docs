@@ -1,9 +1,12 @@
 import Navbar from "./Navbar";
 import Toolbar from "./Toolbar";
-import LeftSidebar from "./LeftSidebar";
+// import LeftSidebar from "./LeftSidebar";
 import RightSidebar from "./RightSidebar";
-import Canvas from "./Canvas";
+// import Canvas from "./Canvas";
 import StatusBar from "./Statusbar";
+import Sidebar from "./Sidebar";
+import TemplateExplorer from "./TemplateExplorer";
+import Properties from "./Properties";
 
 export default function EditorLayout() {
   return (
@@ -13,11 +16,16 @@ export default function EditorLayout() {
       <Toolbar />
 
       <div className="flex flex-1 overflow-hidden">
-        <LeftSidebar />
+        {/* <LeftSidebar /> */}
+        <Sidebar />
 
-        <Canvas />
+        <TemplateExplorer />
 
-        <RightSidebar />
+        {/* <Canvas /> */}
+
+        <Properties />
+
+        {/* <RightSidebar /> */}
       </div>
 
       <StatusBar />
