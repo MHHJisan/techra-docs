@@ -5,6 +5,7 @@ import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { Bell, Search, Settings, ChevronDown, Languages } from "lucide-react";
 
 import { useEditorStore } from "../store/editor-store";
+import { useTranslation } from "../hooks/useTranslation";
 
 const LANGUAGES = [
   {
@@ -19,30 +20,11 @@ const LANGUAGES = [
   },
 ] as const;
 
-const translations = {
-  en: {
-    navbar: {
-      title: "Techra Docs",
-      search: "Search templates...",
-      role: "Software Engineer",
-    },
-  },
-
-  bn: {
-    navbar: {
-      title: "টেকরা ডকস",
-      search: "টেমপ্লেট খুঁজুন...",
-      role: "সফটওয়্যার ইঞ্জিনিয়ার",
-    },
-  },
-};
-
 export default function Navbar() {
   const language = useEditorStore((state) => state.language);
   const setLanguage = useEditorStore((state) => state.setLanguage);
 
-  const t = translations[language];
-
+  const { t } = useTranslation("navbar");
   const currentLanguage =
     LANGUAGES.find((lang) => lang.code === language) ?? LANGUAGES[0];
 
@@ -50,7 +32,7 @@ export default function Navbar() {
     <header className="flex h-16 items-center justify-between border-b border-gray-200 bg-white px-6">
       {/* Left */}
       <div className="flex items-center gap-8">
-        <h1 className="text-2xl font-bold text-blue-600">{t.navbar.title}</h1>
+        <h1 className="text-2xl font-bold text-blue-600">{t.title}</h1>
 
         <div className="relative hidden md:block">
           <Search
@@ -60,7 +42,7 @@ export default function Navbar() {
 
           <input
             type="text"
-            placeholder={t.navbar.search}
+            placeholder={t.search}
             className="h-11 w-[420px] rounded-full border border-gray-200 bg-gray-50 pl-11 pr-4 text-sm text-gray-700 outline-none transition-all focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-100"
           />
         </div>
@@ -124,7 +106,7 @@ export default function Navbar() {
           <div className="hidden text-left lg:block">
             <p className="text-sm font-semibold text-gray-800">Jisan</p>
 
-            <p className="text-xs text-gray-500">{t.navbar.role}</p>
+            <p className="text-xs text-gray-500">{t.role}</p>
           </div>
         </button>
       </div>
