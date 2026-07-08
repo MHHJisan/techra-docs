@@ -3,48 +3,77 @@
 import { create } from "zustand";
 
 import { EditorDocument } from "../types/document";
-// import { createTextElement } from "../factories/text-element";
+import { createTextBlock } from "../factories/text-block";
 
 export type Language = "en" | "bn";
 
 export type ActiveTool = "select" | "text" | "image" | "table" | "shape";
 
+export type PropertiesPanel =
+  | "none"
+  | "text"
+  | "image"
+  | "table"
+  | "shape"
+  | "page";
+
+export type EditorView =
+  | "home"
+  | "templates"
+  | "favorites"
+  | "documents"
+  | "settings";
+
 interface EditorState {
-  // ==========================
+  // ==========================================
   // Document
-  // ==========================
+  // ==========================================
 
   document: EditorDocument | null;
 
-  // ==========================
+  // ==========================================
   // Language
-  // ==========================
+  // ==========================================
 
   language: Language;
 
-  // ==========================
+  // ==========================================
+  // Current Screen
+  // ==========================================
+
+  currentView: EditorView;
+
+  // ==========================================
+  // Properties Panel
+  // ==========================================
+
+  propertiesPanel: PropertiesPanel;
+
+  // ==========================================
   // Editor
-  // ==========================
+  // ==========================================
 
   zoom: number;
 
   activeTool: ActiveTool;
 
-  // ==========================
+  // ==========================================
   // Selection
-  // ==========================
+  // ==========================================
 
   selectedPageId: string | null;
 
-  selectedElementId: string | null;
+  selectedBlockId: string | null;
 
-  // ==========================
+  // ==========================================
   // Actions
-  // ==========================
+  // ==========================================
 
   setDocument: (document: EditorDocument) => void;
 
   setLanguage: (language: Language) => void;
+
+  setCurrentView: (view: EditorView) => void;
 
   setZoom: (zoom: number) => void;
 
@@ -52,19 +81,27 @@ interface EditorState {
 
   selectPage: (pageId: string | null) => void;
 
-  selectElement: (elementId: string | null) => void;
+  selectBlock: (blockId: string | null) => void;
 
-  addTextElement: () => void;
+  openProperties: (panel: PropertiesPanel) => void;
+
+  closeProperties: () => void;
+
+  addTextBlock: () => void;
 }
 
 export const useEditorStore = create<EditorState>((set) => ({
-  // ==========================
+  // ==========================================
   // Initial State
-  // ==========================
+  // ==========================================
 
   document: null,
 
   language: "en",
+
+  currentView: "home",
+
+  propertiesPanel: "none",
 
   zoom: 100,
 
@@ -72,11 +109,11 @@ export const useEditorStore = create<EditorState>((set) => ({
 
   selectedPageId: null,
 
-  selectedElementId: null,
+  selectedBlockId: null,
 
-  // ==========================
+  // ==========================================
   // Document
-  // ==========================
+  // ==========================================
 
   setDocument: (document) =>
     set({
@@ -84,62 +121,86 @@ export const useEditorStore = create<EditorState>((set) => ({
       selectedPageId: document.pages[0]?.id ?? null,
     }),
 
-  // ==========================
+  // ==========================================
   // Language
-  // ==========================
+  // ==========================================
 
   setLanguage: (language) =>
     set({
       language,
     }),
 
-  // ==========================
+  // ==========================================
+  // Current View
+  // ==========================================
+
+  setCurrentView: (view) =>
+    set({
+      currentView: view,
+    }),
+
+  // ==========================================
+  // Properties
+  // ==========================================
+
+  openProperties: (panel) =>
+    set({
+      propertiesPanel: panel,
+    }),
+
+  closeProperties: () =>
+    set({
+      propertiesPanel: "none",
+      selectedBlockId: null,
+    }),
+
+  // ==========================================
   // Zoom
-  // ==========================
+  // ==========================================
 
   setZoom: (zoom) =>
     set({
       zoom,
     }),
 
-  // ==========================
+  // ==========================================
   // Active Tool
-  // ==========================
+  // ==========================================
 
   setActiveTool: (tool) =>
     set({
       activeTool: tool,
     }),
 
-  // ==========================
+  // ==========================================
   // Selection
-  // ==========================
+  // ==========================================
 
   selectPage: (pageId) =>
     set({
       selectedPageId: pageId,
     }),
 
-  selectElement: (elementId) =>
+  selectBlock: (blockId) =>
     set({
-      selectedElementId: elementId,
+      selectedBlockId: blockId,
     }),
 
-  // ==========================
-  // Elements
-  // ==========================
+  // ==========================================
+  // Blocks
+  // ==========================================
 
-  addTextElement: () =>
+  addTextBlock: () =>
     set((state) => {
       if (!state.document) return state;
 
-      const element = createTextElement();
+      const block = createTextBlock();
 
       const pages = [...state.document.pages];
 
       pages[0] = {
         ...pages[0],
-        elements: [...pages[0].elements, element],
+        blocks: [...pages[0].blocks, block],
       };
 
       return {
@@ -148,7 +209,8 @@ export const useEditorStore = create<EditorState>((set) => ({
           pages,
         },
 
-        selectedElementId: element.id,
+        selectedBlockId: block.id,
+        propertiesPanel: "text",
       };
     }),
 }));

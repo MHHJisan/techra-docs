@@ -6,18 +6,28 @@ import {
   Star,
   FolderOpen,
   Settings,
+  LucideIcon,
 } from "lucide-react";
 
 import { useTranslation } from "../hooks/useTranslation";
+import { useEditorStore, EditorView } from "../store/editor-store";
 
 export default function Toolbar() {
   const { t } = useTranslation("toolbar");
-  const menuItems = [
+
+  const currentView = useEditorStore((state) => state.currentView);
+
+  const setCurrentView = useEditorStore((state) => state.setCurrentView);
+
+  const menuItems: {
+    key: EditorView;
+    icon: LucideIcon;
+    label: string;
+  }[] = [
     {
       key: "home",
       icon: House,
       label: t.home,
-      active: true,
     },
     {
       key: "templates",
@@ -47,16 +57,20 @@ export default function Toolbar() {
         {menuItems.map((item) => {
           const Icon = item.icon;
 
+          const isActive = currentView === item.key;
+
           return (
             <button
               key={item.key}
+              onClick={() => setCurrentView(item.key)}
               className={`flex items-center gap-2 rounded-full px-5 py-2 text-sm font-medium transition-all duration-200 ${
-                item.active
+                isActive
                   ? "bg-white text-blue-600 shadow"
                   : "text-gray-600 hover:bg-white hover:text-blue-600"
               }`}
             >
               <Icon size={18} strokeWidth={2} />
+
               <span>{item.label}</span>
             </button>
           );

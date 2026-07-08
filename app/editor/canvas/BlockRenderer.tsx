@@ -1,7 +1,7 @@
 "use client";
 
-import { Block } from "../types/block";
 import TextBlock from "../blocks/TextBlock";
+import { Block } from "../types/block";
 
 interface Props {
   block: Block;

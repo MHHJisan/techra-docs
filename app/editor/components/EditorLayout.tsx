@@ -1,31 +1,31 @@
+"use client";
+
+import { useEffect } from "react";
+
 import Navbar from "./Navbar";
 import Toolbar from "./Toolbar";
-// import LeftSidebar from "./LeftSidebar";
-import RightSidebar from "./RightSidebar";
-// import Canvas from "./Canvas";
 import StatusBar from "./Statusbar";
-import Sidebar from "./Sidebar";
-import TemplateExplorer from "./TemplateExplorer";
-import Properties from "./Properties";
+
+import ViewRenderer from "../views/ViewRenderer";
+
+import { useEditorStore } from "../store/editor-store";
+import { rentalAgreementTemplate } from "../templates";
 
 export default function EditorLayout() {
+  const setDocument = useEditorStore((state) => state.setDocument);
+
+  useEffect(() => {
+    setDocument(rentalAgreementTemplate);
+  }, [setDocument]);
+
   return (
-    <div className="flex h-screen flex-col bg-zinc-100 color-slate-900">
+    <div className="flex h-screen flex-col bg-zinc-100 text-slate-900">
       <Navbar />
 
       <Toolbar />
 
       <div className="flex flex-1 overflow-hidden">
-        {/* <LeftSidebar /> */}
-        <Sidebar />
-
-        <TemplateExplorer />
-
-        {/* <Canvas /> */}
-
-        <Properties />
-
-        {/* <RightSidebar /> */}
+        <ViewRenderer />
       </div>
 
       <StatusBar />

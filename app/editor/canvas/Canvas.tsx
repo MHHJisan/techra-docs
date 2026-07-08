@@ -1,23 +1,33 @@
 "use client";
 
 import { useEditorStore } from "../store/editor-store";
-import PageRenderer from "../renderer/PageRenderer";
+import Page from "./Page";
 
 export default function Canvas() {
   const document = useEditorStore((state) => state.document);
 
-  if (!document) return null;
+  const zoom = useEditorStore((state) => state.zoom);
+
+  if (!document) {
+    return (
+      <main className="flex flex-1 items-center justify-center bg-gray-100">
+        <p className="text-gray-500">No document loaded.</p>
+      </main>
+    );
+  }
 
   return (
-    <main className="flex flex-1 justify-center overflow-auto bg-zinc-300 p-10">
+    <main className="flex flex-1 justify-center overflow-auto bg-gray-200 p-10">
       <div
-        className="relative bg-white shadow-2xl"
+        className="flex flex-col gap-10"
         style={{
-          width: 794,
-          height: 1123,
+          transform: `scale(${zoom / 100})`,
+          transformOrigin: "top center",
         }}
       >
-        <PageRenderer page={document.pages[0]} />
+        {document.pages.map((page) => (
+          <Page key={page.id} page={page} />
+        ))}
       </div>
     </main>
   );
