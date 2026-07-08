@@ -1,7 +1,7 @@
 "use client";
 
-import ExplorerGrid from "../templates/ExploreGrid";
-import ExplorerHeader from "../templates/ExploreHeader";
+import ExplorerGrid from "../template-explorer/ExploreGrid";
+import ExplorerHeader from "../template-explorer/ExploreHeader";
 
 export default function TemplateExplorer() {
   return (
