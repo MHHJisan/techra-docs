@@ -29,7 +29,8 @@ export default function Navbar() {
     LANGUAGES.find((lang) => lang.code === language) ?? LANGUAGES[0];
 
   return (
-    <header className="flex h-16 items-center justify-between border-b border-gray-200 bg-white px-6">
+    <header className="relative z-50 flex h-16 items-center justify-between border-b border-gray-200 bg-white px-6">
+      {" "}
       {/* Left */}
       <div className="flex items-center gap-8">
         <h1 className="text-2xl font-bold text-blue-600">{t.title}</h1>
@@ -47,7 +48,6 @@ export default function Navbar() {
           />
         </div>
       </div>
-
       {/* Right */}
       <div className="flex items-center gap-4">
         {/* Language */}

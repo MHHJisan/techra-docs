@@ -1,9 +1,9 @@
 import { EditorDocument } from "../types/document";
 
-export const moneyReceiptTemplate: EditorDocument = {
-  id: "money-receipt",
+export const comingSoonTemplate: EditorDocument = {
+  id: "coming-soon",
 
-  title: "Money Receipt",
+  title: "Coming Soon",
 
   pages: [
     {
@@ -21,10 +21,10 @@ export const moneyReceiptTemplate: EditorDocument = {
 
           type: "text",
 
-          x: 250,
-          y: 70,
+          x: 180,
+          y: 160,
 
-          width: 300,
+          width: 430,
           height: 40,
 
           rotation: 0,
@@ -33,33 +33,33 @@ export const moneyReceiptTemplate: EditorDocument = {
 
           visible: true,
 
-          text: "MONEY RECEIPT",
+          text: "This template is coming soon",
 
           fontFamily: "Arial",
 
-          fontSize: 26,
+          fontSize: 28,
 
-          color: "#111827",
+          color: "#2563eb",
 
           bold: true,
 
           italic: false,
 
-          underline: true,
+          underline: false,
 
           align: "center",
         },
 
         {
-          id: "body",
+          id: "description",
 
           type: "text",
 
-          x: 70,
-          y: 150,
+          x: 120,
+          y: 240,
 
-          width: 650,
-          height: 350,
+          width: 560,
+          height: 80,
 
           rotation: 0,
 
@@ -67,13 +67,13 @@ export const moneyReceiptTemplate: EditorDocument = {
 
           visible: true,
 
-          text: "Received with thanks from __________________ an amount of __________________ only.",
+          text: "The template structure is already connected to the editor. The final professionally designed document will be added later.",
 
           fontFamily: "Arial",
 
           fontSize: 16,
 
-          color: "#333333",
+          color: "#4b5563",
 
           bold: false,
 
@@ -81,7 +81,7 @@ export const moneyReceiptTemplate: EditorDocument = {
 
           underline: false,
 
-          align: "left",
+          align: "center",
         },
       ],
     },
