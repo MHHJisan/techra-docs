@@ -1,4 +1,5 @@
 import {
+  houseOrFlatRentalAgreementTemplate,
   rentalAgreementTemplate,
   affidavitTemplate,
   moneyReceiptTemplate,
@@ -11,11 +12,7 @@ export const TEMPLATE_REGISTRY = {
   // Rental
   // ==========================
 
-  rentalAgreement: rentalAgreementTemplate,
-
-  houseRentalAgreement: rentalAgreementTemplate,
-
-  flatRentalAgreement: comingSoonTemplate,
+  houseOrFlatRentalAgreement: houseOrFlatRentalAgreementTemplate,
 
   officeRentalAgreement: rentalAgreementTemplate,
 
