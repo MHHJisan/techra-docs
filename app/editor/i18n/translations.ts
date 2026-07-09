@@ -202,9 +202,9 @@ const bn: typeof en = {
 };
 
 export const translations = {
-  en,
   bn,
+  en,
 };
 
 export type Language = keyof typeof translations;
-export type Translation = typeof en;
+export type Translation = typeof bn;

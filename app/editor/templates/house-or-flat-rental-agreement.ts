@@ -54,10 +54,10 @@ export const houseOrFlatRentalAgreementTemplate: EditorDocument = {
 
       height: 1123,
 
-      background: "#ffffff",
+      background: "white",
 
       blocks: [
-        text("title", 220, 70, "বাড়ী/ফ্ল্যাট বাড়ায চুক্তিপত্র", 24, true),
+        text("title", 220, 70, "বাড়ী/ফ্ল্যাট ভাড়ার চুক্তিপত্র", 24, true),
 
         text("owner-heading", 70, 150, "প্রথম পক্ষ / মালিক", 18, true),
 
@@ -104,7 +104,7 @@ export const houseOrFlatRentalAgreementTemplate: EditorDocument = {
 
       height: 1123,
 
-      background: "#ffffff",
+      background: "balck",
 
       blocks: [
         text("id-1", 70, 70, "১।"),

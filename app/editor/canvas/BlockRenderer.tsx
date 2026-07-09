@@ -1,6 +1,7 @@
 "use client";
 
-import TextBlock from "../blocks/TextBlock";
+import EditableText from "../blocks/EditableText";
+
 import { Block } from "../types/block";
 
 interface Props {
@@ -10,7 +11,7 @@ interface Props {
 export default function BlockRenderer({ block }: Props) {
   switch (block.type) {
     case "text":
-      return <TextBlock block={block} />;
+      return <EditableText block={block} />;
 
     default:
       return null;

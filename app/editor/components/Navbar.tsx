@@ -9,19 +9,21 @@ import { useTranslation } from "../hooks/useTranslation";
 
 const LANGUAGES = [
   {
-    code: "en",
-    label: "English",
-    flag: "🇺🇸",
-  },
-  {
     code: "bn",
     label: "বাংলা",
     flag: "🇧🇩",
   },
+  {
+    code: "en",
+    label: "English",
+    flag: "🇺🇸",
+  },
 ] as const;
 
 export default function Navbar() {
+  console.log(useEditorStore);
   const language = useEditorStore((state) => state.language);
+  console.log("language", language);
   const setLanguage = useEditorStore((state) => state.setLanguage);
 
   const { t } = useTranslation("navbar");

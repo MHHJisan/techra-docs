@@ -40,11 +40,11 @@ export const SIDEBAR_CATEGORIES: SidebarCategory[] = [
         template: "houseOrFlatRentalAgreement",
       },
 
-      {
-        id: "office-rental-agreement",
-        title: "officeRentalAgreement",
-        template: "officeRentalAgreement",
-      },
+      //   {
+      //     id: "office-rental-agreement",
+      //     title: "officeRentalAgreement",
+      //     template: "officeRentalAgreement",
+      //   },
       {
         id: "shop-rental-agreement",
         title: "shopRentalAgreement",

@@ -5,7 +5,7 @@ import { create } from "zustand";
 import { EditorDocument } from "../types/document";
 import { createTextBlock } from "../factories/text-block";
 
-export type Language = "en" | "bn";
+export type Language = "bn" | "en";
 
 export type ActiveTool = "select" | "text" | "image" | "table" | "shape";
 
@@ -97,7 +97,7 @@ export const useEditorStore = create<EditorState>((set) => ({
 
   document: null,
 
-  language: "en",
+  language: "bn",
 
   currentView: "home",
 
