@@ -12,7 +12,7 @@ interface Props {
 export default function Page({ page }: Props) {
   return (
     <div
-      className="relative bg-white shadow-xl"
+      className="relative mx-auto rounded-sm border border-gray-300 bg-white shadow-xl"
       style={{
         width: page.width,
         height: page.height,

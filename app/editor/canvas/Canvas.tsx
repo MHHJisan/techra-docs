@@ -26,7 +26,8 @@ export default function Canvas() {
         }}
       >
         {document.pages.map((page) => (
-          <Page key={page.id} page={page} />
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          <Page key={page.id} page={page as any} />
         ))}
       </div>
     </main>

@@ -1,11 +1,15 @@
 import {
   houseOrFlatRentalAgreementTemplate,
-  rentalAgreementTemplate,
   affidavitTemplate,
   moneyReceiptTemplate,
   powerOfAttorneyTemplate,
   comingSoonTemplate,
+  comingSoon_shopRentalAgreementTemplate,
 } from ".";
+import { comingSoon_garageRentalAgreementTemplate } from "./coming-soon_garage_rental_agreement";
+import { comingSoonTemplate_BuyerAgreement } from "./land/coming-soon_buyerAgreement";
+import { comingSoonTemplate_Mutation } from "./land/coming-soon_mutation";
+import { comingSoonTemplate_SellerAgreement } from "./land/coming-soon_sellerAgreement";
 
 export const TEMPLATE_REGISTRY = {
   // ==========================
@@ -14,11 +18,11 @@ export const TEMPLATE_REGISTRY = {
 
   houseOrFlatRentalAgreement: houseOrFlatRentalAgreementTemplate,
 
-  officeRentalAgreement: rentalAgreementTemplate,
+  //   officeRentalAgreement: rentalAgreementTemplate,
 
-  shopRentalAgreement: comingSoonTemplate,
+  shopRentalAgreement: comingSoon_shopRentalAgreementTemplate,
 
-  garageRentalAgreement: comingSoonTemplate,
+  garageRentalAgreement: comingSoon_garageRentalAgreementTemplate,
 
   // ==========================
   // Legal
@@ -40,11 +44,11 @@ export const TEMPLATE_REGISTRY = {
   // Land
   // ==========================
 
-  saleDeed: comingSoonTemplate,
+  saleDeed: comingSoonTemplate_SellerAgreement,
 
-  purchaseDeed: comingSoonTemplate,
+  purchaseDeed: comingSoonTemplate_BuyerAgreement,
 
-  mutation: comingSoonTemplate,
+  mutation: comingSoonTemplate_Mutation,
 
   landRegistration: comingSoonTemplate,
 

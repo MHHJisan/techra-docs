@@ -9,13 +9,13 @@ import StatusBar from "./Statusbar";
 import ViewRenderer from "../views/ViewRenderer";
 
 import { useEditorStore } from "../store/editor-store";
-import { rentalAgreementTemplate } from "../templates";
+import { houseOrFlatRentalAgreementTemplate } from "../templates";
 
 export default function EditorLayout() {
   const setDocument = useEditorStore((state) => state.setDocument);
 
   useEffect(() => {
-    setDocument(rentalAgreementTemplate);
+    setDocument(houseOrFlatRentalAgreementTemplate);
   }, [setDocument]);
 
   return (

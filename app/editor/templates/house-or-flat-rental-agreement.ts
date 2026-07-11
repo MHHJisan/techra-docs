@@ -15,8 +15,8 @@ const text = (
   x,
   y,
 
-  width: 480,
-  height: 28,
+  width: 680,
+  height: 36,
 
   rotation: 0,
 
@@ -54,7 +54,7 @@ export const houseOrFlatRentalAgreementTemplate: EditorDocument = {
 
       height: 1123,
 
-      background: "white",
+      background: "#ffffff",
 
       blocks: [
         text("title", 220, 70, "বাড়ী/ফ্ল্যাট ভাড়ার চুক্তিপত্র", 24, true),
@@ -104,7 +104,7 @@ export const houseOrFlatRentalAgreementTemplate: EditorDocument = {
 
       height: 1123,
 
-      background: "balck",
+      background: "#ffffff",
 
       blocks: [
         text("id-1", 70, 70, "১।"),
