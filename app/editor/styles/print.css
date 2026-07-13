@@ -1,19 +1,26 @@
-@page {
-  size: A4;
+body {
   margin: 0;
 }
 
-body {
-  background: white;
+.print-page {
+  break-after: page;
 }
 
-.print-page {
-  width: 210mm;
-  min-height: 297mm;
+@page {
+  size: A4;
+  margin: 12mm;
+}
 
-  background: white;
+@media print {
+  body {
+    background: white;
+  }
 
-  box-sizing: border-box;
+  .print-page {
+    margin: 0;
 
-  page-break-after: always;
+    box-shadow: none;
+
+    border: none;
+  }
 }

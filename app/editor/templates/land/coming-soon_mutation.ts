@@ -15,7 +15,7 @@ export const comingSoonTemplate_Mutation: EditorDocument = {
 
       background: "#ffffff",
 
-      blocks: [
+      nodes: [
         {
           id: "title",
 
@@ -52,8 +52,6 @@ export const comingSoonTemplate_Mutation: EditorDocument = {
 
         {
           id: "description",
-
-          type: "text",
 
           x: 120,
           y: 240,

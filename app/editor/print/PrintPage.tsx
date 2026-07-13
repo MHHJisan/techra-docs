@@ -14,10 +14,18 @@ export default function PrintPage({ page }: Props) {
       style={{
         width: "210mm",
         minHeight: "297mm",
+
+        margin: "0 auto 20px",
+
         padding: "20mm",
+
         background: "#fff",
-        pageBreakAfter: "always",
+
         boxSizing: "border-box",
+
+        boxShadow: "0 0 15px rgba(0,0,0,.15)",
+
+        pageBreakAfter: "always",
       }}
     >
       {page.nodes.map((node) => (

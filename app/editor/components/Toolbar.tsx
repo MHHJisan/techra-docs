@@ -17,6 +17,7 @@ import { useEditorStore, EditorView } from "../store/editor-store";
 import { saveDocument } from "../services/save-document";
 import { printDocument } from "../services/print-document";
 import { downloadDocument } from "../services/download";
+import DownloadMenu from "./DownloadMenu";
 
 export default function Toolbar() {
   const { t } = useTranslation("toolbar");
@@ -116,7 +117,7 @@ export default function Toolbar() {
           Print
         </button>
 
-        <button
+        {/* <button
           onClick={() => {
             if (document) {
               downloadDocument(document);
@@ -126,7 +127,8 @@ export default function Toolbar() {
         >
           <Download size={18} />
           Download
-        </button>
+        </button> */}
+        <DownloadMenu />
       </div>
     </nav>
   );
