@@ -1,17 +1,38 @@
 "use client";
 
-import { HeadingNode } from "../types/node";
+import { useRef } from "react";
 
-export default function Heading({ node }: { node: HeadingNode }) {
+import { HeadingNode } from "../types/node";
+import { useEditorStore } from "../store/editor-store";
+
+interface Props {
+  pageId: string;
+  node: HeadingNode;
+}
+
+export default function Heading({ pageId, node }: Props) {
+  const updateNode = useEditorStore((state) => state.updateNode);
+
+  const ref = useRef<HTMLHeadingElement>(null);
+
   return (
     <h1
+      ref={ref}
       contentEditable
       suppressContentEditableWarning
-      className="mb-8 outline-none"
       style={{
         fontSize: node.fontSize,
         textAlign: node.align,
-        fontWeight: 700,
+        marginBottom: 20,
+        outline: "none",
+      }}
+      onBlur={() => {
+        if (!ref.current) return;
+
+        updateNode(pageId, node.id, {
+          text: ref.current.textContent ?? "",
+          height: ref.current.scrollHeight,
+        });
       }}
     >
       {node.text}

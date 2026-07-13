@@ -232,6 +232,7 @@ export const useEditorStore = create<EditorState>((set) => ({
 
         return {
           ...page,
+
           nodes: page.nodes.map((node) => {
             if (node.id !== nodeId) return node;
 
@@ -243,11 +244,13 @@ export const useEditorStore = create<EditorState>((set) => ({
         };
       });
 
+      const updatedDocument = {
+        ...state.document,
+        pages,
+      };
+
       return {
-        document: {
-          ...state.document,
-          pages,
-        },
+        document: paginate(updatedDocument),
       };
     }),
 }));

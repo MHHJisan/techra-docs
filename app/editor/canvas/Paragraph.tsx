@@ -36,9 +36,20 @@ export default function Paragraph({ pageId, node }: Props) {
         textAlign: node.align,
         lineHeight: 1.8,
       }}
-      onBlur={() => {
+      onInput={(e) => {
+        if (!ref.current) return;
+
         updateNode(pageId, node.id, {
-          text: ref.current?.textContent ?? "",
+          text: e.currentTarget.textContent ?? "",
+          height: ref.current.scrollHeight,
+        });
+      }}
+      onBlur={() => {
+        if (!ref.current) return;
+
+        updateNode(pageId, node.id, {
+          text: ref.current.textContent ?? "",
+          height: ref.current.scrollHeight,
         });
       }}
     />

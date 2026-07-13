@@ -13,7 +13,7 @@ interface Props {
 export default function NodeRenderer({ pageId, node }: Props) {
   switch (node.type) {
     case "heading":
-      return <Heading node={node} />;
+      return <Heading pageId={pageId} node={node} />;
 
     case "paragraph":
       return <Paragraph pageId={pageId} node={node} />;
