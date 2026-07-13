@@ -12,8 +12,11 @@ import {
 } from "lucide-react";
 
 import { useTranslation } from "../hooks/useTranslation";
+import { toast } from "react-hot-toast";
 import { useEditorStore, EditorView } from "../store/editor-store";
 import { saveDocument } from "../services/save-document";
+import { printDocument } from "../services/print-document";
+import { downloadDocument } from "../services/download";
 
 export default function Toolbar() {
   const { t } = useTranslation("toolbar");
@@ -78,11 +81,11 @@ export default function Toolbar() {
       </div>
 
       <div className="flex items-center gap-2">
-        <button className="rounded-lg p-2 hover:bg-gray-100">
+        <button disabled className="rounded-lg p-2 hover:bg-gray-100">
           <Undo2 size={18} />
         </button>
 
-        <button className="rounded-lg p-2 hover:bg-gray-100">
+        <button disabled className="rounded-lg p-2 hover:bg-gray-100">
           <Redo2 size={18} />
         </button>
 
@@ -92,6 +95,7 @@ export default function Toolbar() {
           onClick={() => {
             if (document) {
               saveDocument(document);
+              toast.success("Document saved successfully!");
             }
           }}
           className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700"
@@ -100,12 +104,26 @@ export default function Toolbar() {
           Save
         </button>
 
-        <button className="flex items-center gap-2 rounded-lg border px-4 py-2 hover:bg-gray-100">
+        <button
+          onClick={() => {
+            if (document) {
+              printDocument(document);
+            }
+          }}
+          className="flex items-center gap-2 rounded-lg border px-4 py-2 hover:bg-gray-100"
+        >
           <Printer size={18} />
           Print
         </button>
 
-        <button className="flex items-center gap-2 rounded-lg border px-4 py-2 hover:bg-gray-100">
+        <button
+          onClick={() => {
+            if (document) {
+              downloadDocument(document);
+            }
+          }}
+          className="flex items-center gap-2 rounded-lg border px-4 py-2 hover:bg-gray-100"
+        >
           <Download size={18} />
           Download
         </button>

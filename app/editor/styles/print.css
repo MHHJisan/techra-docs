@@ -1,0 +1,19 @@
+@page {
+  size: A4;
+  margin: 0;
+}
+
+body {
+  background: white;
+}
+
+.print-page {
+  width: 210mm;
+  min-height: 297mm;
+
+  background: white;
+
+  box-sizing: border-box;
+
+  page-break-after: always;
+}
