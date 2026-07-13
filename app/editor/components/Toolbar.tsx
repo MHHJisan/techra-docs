@@ -5,7 +5,6 @@ import {
   FolderOpen,
   Save,
   Printer,
-  Download,
   Undo2,
   Redo2,
   LucideIcon,
@@ -16,7 +15,6 @@ import { toast } from "react-hot-toast";
 import { useEditorStore, EditorView } from "../store/editor-store";
 import { saveDocument } from "../services/save-document";
 import { printDocument } from "../services/print-document";
-import { downloadDocument } from "../services/download";
 import DownloadMenu from "./DownloadMenu";
 
 export default function Toolbar() {
@@ -95,6 +93,7 @@ export default function Toolbar() {
         <button
           onClick={() => {
             if (document) {
+              console.log(document.pages[0].nodes);
               saveDocument(document);
               toast.success("Document saved successfully!");
             }

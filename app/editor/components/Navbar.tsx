@@ -40,13 +40,13 @@ export default function Navbar() {
         <div className="relative hidden md:block">
           <Search
             size={18}
-            className="absolute left-4 top-1/2 -translate-y-1/2 -translate-x-0 text-gray-400"
+            className="absolute left-4 top-1/2 -translate-y-1/2 translate-x-0 text-gray-400"
           />
 
           <input
             type="text"
             placeholder={t.search}
-            className="h-11 w-[420px] rounded-full border border-gray-200 bg-gray-50 pl-11 pr-4 text-sm text-gray-700 outline-none transition-all focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-100"
+            className="h-11 w-105 rounded-full border border-gray-200 bg-gray-50 pl-11 pr-4 text-sm text-gray-700 outline-none transition-all focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-100"
           />
         </div>
       </div>

@@ -1,21 +1,21 @@
 import { EditorDocument } from "../types/document";
+import { DocumentPage } from "../types/page";
+import { createPage, PAGE_HEIGHT } from "../factories/page";
 
-const PAGE_HEIGHT = 1123;
 const PAGE_PADDING = 70;
 
 export function paginate(document: EditorDocument): EditorDocument {
-  const newPages = [];
-
-  let currentPage = {
-    ...document.pages[0],
-    nodes: [],
-  };
-
-  let currentHeight = PAGE_PADDING;
+  const newPages: DocumentPage[] = [];
 
   let pageNumber = 1;
 
-  for (const node of document.pages.flatMap((page) => page.nodes)) {
+  let currentPage = createPage(`page-${pageNumber}`);
+
+  let currentHeight = PAGE_PADDING;
+
+  const allNodes = document.pages.flatMap((page) => page.nodes);
+
+  for (const node of allNodes) {
     const nodeHeight = node.height ?? 40;
 
     if (currentHeight + nodeHeight > PAGE_HEIGHT - PAGE_PADDING) {
@@ -23,17 +23,7 @@ export function paginate(document: EditorDocument): EditorDocument {
 
       pageNumber++;
 
-      currentPage = {
-        id: `page-${pageNumber}`,
-
-        width: 794,
-
-        height: 1123,
-
-        background: "#ffffff",
-
-        nodes: [],
-      };
+      currentPage = createPage(`page-${pageNumber}`);
 
       currentHeight = PAGE_PADDING;
     }

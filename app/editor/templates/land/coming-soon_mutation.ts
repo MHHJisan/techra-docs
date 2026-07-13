@@ -1,4 +1,5 @@
 import { EditorDocument } from "../../types/document";
+import { heading, paragraph } from "../../factories/node";
 
 export const comingSoonTemplate_Mutation: EditorDocument = {
   id: "coming-soon-mutation",
@@ -16,71 +17,15 @@ export const comingSoonTemplate_Mutation: EditorDocument = {
       background: "#ffffff",
 
       nodes: [
-        {
-          id: "title",
+        heading("title", "This template is coming soon for Land Mutation"),
 
-          type: "text",
+        paragraph(
+          "description",
+          `The template structure is already connected to the editor.
 
-          x: 180,
-          y: 160,
-
-          width: 430,
-          height: 40,
-
-          rotation: 0,
-
-          locked: false,
-
-          visible: true,
-
-          text: "This template is coming soon for Land  Mutation",
-
-          fontFamily: "Arial",
-
-          fontSize: 28,
-
-          color: "#2563eb",
-
-          bold: true,
-
-          italic: false,
-
-          underline: false,
-
-          align: "center",
-        },
-
-        {
-          id: "description",
-
-          x: 120,
-          y: 240,
-
-          width: 560,
-          height: 80,
-
-          rotation: 0,
-
-          locked: false,
-
-          visible: true,
-
-          text: "The template structure is already connected to the editor. The final professionally designed document will be added later.",
-
-          fontFamily: "Arial",
-
-          fontSize: 16,
-
-          color: "#4b5563",
-
-          bold: false,
-
-          italic: false,
-
-          underline: false,
-
-          align: "center",
-        },
+The final professionally designed document will be added later.`,
+          "center",
+        ),
       ],
     },
   ],

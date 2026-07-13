@@ -6,6 +6,7 @@ import { EditorDocument } from "../types/document";
 
 import { paragraph } from "../factories/node";
 import { paginate } from "../utils/paginate";
+import { ParagraphNode } from "../types/node";
 
 export type Language = "bn" | "en";
 
@@ -88,6 +89,12 @@ interface EditorState {
   closeProperties: () => void;
 
   addTextBlock: () => void;
+
+  updateNode: (
+    pageId: string,
+    nodeId: string,
+    updateds: Partial<ParagraphNode>,
+  ) => void;
 }
 
 export const useEditorStore = create<EditorState>((set) => ({
@@ -213,6 +220,34 @@ export const useEditorStore = create<EditorState>((set) => ({
 
         selectedNodeId: node.id,
         propertiesPanel: "text",
+      };
+    }),
+
+  updateNode: (pageId, nodeId, updates) =>
+    set((state) => {
+      if (!state.document) return state;
+
+      const pages = state.document.pages.map((page) => {
+        if (page.id !== pageId) return page;
+
+        return {
+          ...page,
+          nodes: page.nodes.map((node) => {
+            if (node.id !== nodeId) return node;
+
+            return {
+              ...node,
+              ...updates,
+            };
+          }),
+        };
+      });
+
+      return {
+        document: {
+          ...state.document,
+          pages,
+        },
       };
     }),
 }));

@@ -19,7 +19,7 @@ export default function Page({ page }: Props) {
       }}
     >
       {page.nodes.map((node) => (
-        <NodeRenderer key={node.id} node={node} />
+        <NodeRenderer key={node.id} pageId={page.id} node={node} />
       ))}
     </div>
   );
