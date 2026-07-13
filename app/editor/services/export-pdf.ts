@@ -1,17 +1,15 @@
 "use client";
 
-import html2pdf from "html2pdf.js";
-
 import { EditorDocument } from "../types/document";
 
 export async function exportPDF(editorDocument: EditorDocument) {
-  // Create temporary container
+  // Dynamically import ONLY in browser
+  const html2pdf = (await import("html2pdf.js")).default;
+
   const container = window.document.createElement("div");
 
   container.style.width = "210mm";
   container.style.background = "#ffffff";
-  container.style.padding = "0";
-  container.style.margin = "0";
 
   editorDocument.pages.forEach((page) => {
     const pageDiv = window.document.createElement("div");
@@ -20,7 +18,6 @@ export async function exportPDF(editorDocument: EditorDocument) {
     pageDiv.style.minHeight = "297mm";
     pageDiv.style.padding = "20mm";
     pageDiv.style.boxSizing = "border-box";
-    pageDiv.style.background = "#ffffff";
     pageDiv.style.pageBreakAfter = "always";
 
     page.nodes.forEach((node) => {
@@ -29,12 +26,10 @@ export async function exportPDF(editorDocument: EditorDocument) {
           ? window.document.createElement("h1")
           : window.document.createElement("p");
 
-      element.textContent = node.text;
-
+      element.innerText = node.text;
       element.style.fontSize = `${node.fontSize}px`;
       element.style.textAlign = node.align;
       element.style.whiteSpace = "pre-wrap";
-      element.style.margin = "0 0 16px 0";
       element.style.lineHeight = "1.8";
 
       pageDiv.appendChild(element);
@@ -46,19 +41,15 @@ export async function exportPDF(editorDocument: EditorDocument) {
   await html2pdf()
     .set({
       filename: `${editorDocument.title}.pdf`,
-
       margin: 0,
-
       image: {
         type: "jpeg",
         quality: 1,
       },
-
       html2canvas: {
         scale: 2,
         useCORS: true,
       },
-
       jsPDF: {
         unit: "mm",
         format: "a4",

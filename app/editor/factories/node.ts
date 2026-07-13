@@ -16,7 +16,7 @@ export function heading(
 
     align,
 
-    height: 60,
+    // height: 60,
   };
 }
 

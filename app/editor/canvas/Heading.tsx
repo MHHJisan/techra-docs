@@ -23,7 +23,7 @@ export default function Heading({ pageId, node }: Props) {
       style={{
         fontSize: node.fontSize,
         textAlign: node.align,
-        marginBottom: 20,
+        // marginBottom: 20,
         outline: "none",
       }}
       onBlur={() => {
