@@ -1,7 +1,8 @@
 import { EditorDocument } from "../types/document";
+import { heading, paragraph } from "../factories/node";
 
 export const comingSoon_garageRentalAgreementTemplate: EditorDocument = {
-  id: "coming-soon_garage-rental-agreement",
+  id: "coming-soon-garage-rental-agreement",
 
   title: "Coming Soon Garage Rental Agreement",
 
@@ -15,74 +16,19 @@ export const comingSoon_garageRentalAgreementTemplate: EditorDocument = {
 
       background: "#ffffff",
 
-      blocks: [
-        {
-          id: "title",
+      nodes: [
+        heading("title", "গ্যারেজ ভাড়া চুক্তিপত্র"),
 
-          type: "text",
+        paragraph(
+          "description",
+          `এই টেমপ্লেটটি বর্তমানে প্রস্তুত করা হচ্ছে।
 
-          x: 180,
-          y: 160,
+খুব শীঘ্রই সম্পূর্ণ পেশাদার মানের গ্যারেজ ভাড়া চুক্তিপত্র এখানে যুক্ত করা হবে।
 
-          width: 430,
-          height: 40,
+ততদিন পর্যন্ত অনুগ্রহ করে অন্যান্য উপলব্ধ টেমপ্লেট ব্যবহার করুন।
 
-          rotation: 0,
-
-          locked: false,
-
-          visible: true,
-
-          text: "This template is coming soon for Garage Rental Agreement",
-
-          fontFamily: "Arial",
-
-          fontSize: 28,
-
-          color: "#2563eb",
-
-          bold: true,
-
-          italic: false,
-
-          underline: false,
-
-          align: "center",
-        },
-
-        {
-          id: "description",
-
-          type: "text",
-
-          x: 120,
-          y: 240,
-
-          width: 560,
-          height: 80,
-
-          rotation: 0,
-
-          locked: false,
-
-          visible: true,
-
-          text: "The template structure is already connected to the editor. The final professionally designed document will be added later.",
-
-          fontFamily: "Arial",
-
-          fontSize: 16,
-
-          color: "#4b5563",
-
-          bold: false,
-
-          italic: false,
-
-          underline: false,
-
-          align: "center",
-        },
+ধন্যবাদ।`,
+        ),
       ],
     },
   ],

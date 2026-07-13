@@ -1,4 +1,5 @@
 import { EditorDocument } from "../types/document";
+import { heading, paragraph } from "../factories/node";
 
 export const comingSoonTemplate: EditorDocument = {
   id: "coming-soon",
@@ -15,74 +16,19 @@ export const comingSoonTemplate: EditorDocument = {
 
       background: "#ffffff",
 
-      blocks: [
-        {
-          id: "title",
+      nodes: [
+        heading("title", "Coming Soon"),
 
-          type: "text",
+        paragraph(
+          "description",
+          `This template is currently under development.
 
-          x: 180,
-          y: 160,
+The template structure has already been integrated with the editor.
 
-          width: 430,
-          height: 40,
+A professionally designed and fully editable version will be available in a future update.
 
-          rotation: 0,
-
-          locked: false,
-
-          visible: true,
-
-          text: "This template is coming soon",
-
-          fontFamily: "Arial",
-
-          fontSize: 28,
-
-          color: "#2563eb",
-
-          bold: true,
-
-          italic: false,
-
-          underline: false,
-
-          align: "center",
-        },
-
-        {
-          id: "description",
-
-          type: "text",
-
-          x: 120,
-          y: 240,
-
-          width: 560,
-          height: 80,
-
-          rotation: 0,
-
-          locked: false,
-
-          visible: true,
-
-          text: "The template structure is already connected to the editor. The final professionally designed document will be added later.",
-
-          fontFamily: "Arial",
-
-          fontSize: 16,
-
-          color: "#4b5563",
-
-          bold: false,
-
-          italic: false,
-
-          underline: false,
-
-          align: "center",
-        },
+Thank you for your patience.`,
+        ),
       ],
     },
   ],

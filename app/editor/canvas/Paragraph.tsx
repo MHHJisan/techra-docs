@@ -1,17 +1,20 @@
 "use client";
 
-interface Props {
-  block: any;
-}
+import { ParagraphNode } from "../types/node";
 
-export default function Paragraph({ block }: Props) {
+export default function Paragraph({ node }: { node: ParagraphNode }) {
   return (
-    <p
+    <div
       contentEditable
       suppressContentEditableWarning
-      className="mb-4 whitespace-pre-wrap leading-8 outline-none"
+      className="mb-5 whitespace-pre-wrap outline-none"
+      style={{
+        fontSize: node.fontSize,
+        textAlign: node.align,
+        lineHeight: 1.8,
+      }}
     >
-      {block.text}
-    </p>
+      {node.text}
+    </div>
   );
 }

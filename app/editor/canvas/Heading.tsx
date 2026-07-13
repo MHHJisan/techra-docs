@@ -1,17 +1,20 @@
 "use client";
 
-interface Props {
-  block: any;
-}
+import { HeadingNode } from "../types/node";
 
-export default function Heading({ block }: Props) {
+export default function Heading({ node }: { node: HeadingNode }) {
   return (
     <h1
       contentEditable
       suppressContentEditableWarning
-      className="mb-6 text-center text-2xl font-bold outline-none"
+      className="mb-8 outline-none"
+      style={{
+        fontSize: node.fontSize,
+        textAlign: node.align,
+        fontWeight: 700,
+      }}
     >
-      {block.text}
+      {node.text}
     </h1>
   );
 }

@@ -1,4 +1,5 @@
 import { EditorDocument } from "../types/document";
+import { heading, paragraph } from "../factories/node";
 
 export const affidavitTemplate: EditorDocument = {
   id: "affidavit",
@@ -15,74 +16,27 @@ export const affidavitTemplate: EditorDocument = {
 
       background: "#ffffff",
 
-      blocks: [
-        {
-          id: "title",
+      nodes: [
+        heading("title", "AFFIDAVIT"),
 
-          type: "text",
+        paragraph(
+          "body",
+          `I solemnly affirm that the statements contained in this affidavit are true and correct to the best of my knowledge and belief.
 
-          x: 270,
-          y: 70,
+1. ___________________________________________
 
-          width: 250,
-          height: 40,
+2. ___________________________________________
 
-          rotation: 0,
+3. ___________________________________________
 
-          locked: false,
+4. ___________________________________________
 
-          visible: true,
+5. ___________________________________________
 
-          text: "AFFIDAVIT",
+Signature of the Deponent
 
-          fontFamily: "Times New Roman",
-
-          fontSize: 26,
-
-          color: "#111827",
-
-          bold: true,
-
-          italic: false,
-
-          underline: true,
-
-          align: "center",
-        },
-
-        {
-          id: "body",
-
-          type: "text",
-
-          x: 70,
-          y: 160,
-
-          width: 650,
-          height: 400,
-
-          rotation: 0,
-
-          locked: false,
-
-          visible: true,
-
-          text: "I solemnly affirm that the statements contained in this affidavit are true and correct to the best of my knowledge and belief.",
-
-          fontFamily: "Times New Roman",
-
-          fontSize: 16,
-
-          color: "#333333",
-
-          bold: false,
-
-          italic: false,
-
-          underline: false,
-
-          align: "left",
-        },
+_______________________________`,
+        ),
       ],
     },
   ],

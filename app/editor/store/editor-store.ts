@@ -3,7 +3,9 @@
 import { create } from "zustand";
 
 import { EditorDocument } from "../types/document";
-import { createTextBlock } from "../factories/text-block";
+
+import { paragraph } from "../factories/node";
+import { paginate } from "../utils/paginate";
 
 export type Language = "bn" | "en";
 
@@ -63,8 +65,7 @@ interface EditorState {
 
   selectedPageId: string | null;
 
-  selectedBlockId: string | null;
-
+  selectedNodeId: string | null;
   // ==========================================
   // Actions
   // ==========================================
@@ -81,8 +82,7 @@ interface EditorState {
 
   selectPage: (pageId: string | null) => void;
 
-  selectBlock: (blockId: string | null) => void;
-
+  selectNode: (nodeId: string | null) => void;
   openProperties: (panel: PropertiesPanel) => void;
 
   closeProperties: () => void;
@@ -109,17 +109,20 @@ export const useEditorStore = create<EditorState>((set) => ({
 
   selectedPageId: null,
 
-  selectedBlockId: null,
+  selectedNodeId: null,
 
   // ==========================================
   // Document
   // ==========================================
 
-  setDocument: (document) =>
+  setDocument: (document) => {
+    const paginated = paginate(document);
+
     set({
-      document,
-      selectedPageId: document.pages[0]?.id ?? null,
-    }),
+      document: paginated,
+      selectedPageId: paginated.pages[0]?.id ?? null,
+    });
+  },
 
   // ==========================================
   // Language
@@ -151,7 +154,7 @@ export const useEditorStore = create<EditorState>((set) => ({
   closeProperties: () =>
     set({
       propertiesPanel: "none",
-      selectedBlockId: null,
+      selectedNodeId: null,
     }),
 
   // ==========================================
@@ -181,11 +184,10 @@ export const useEditorStore = create<EditorState>((set) => ({
       selectedPageId: pageId,
     }),
 
-  selectBlock: (blockId) =>
+  selectNode: (nodeId) =>
     set({
-      selectedBlockId: blockId,
+      selectedNodeId: nodeId,
     }),
-
   // ==========================================
   // Blocks
   // ==========================================
@@ -194,13 +196,13 @@ export const useEditorStore = create<EditorState>((set) => ({
     set((state) => {
       if (!state.document) return state;
 
-      const block = createTextBlock();
+      const node = paragraph(crypto.randomUUID(), "নতুন লেখা...");
 
       const pages = [...state.document.pages];
 
       pages[0] = {
         ...pages[0],
-        blocks: [...pages[0].blocks, block],
+        nodes: [...pages[0].nodes, node],
       };
 
       return {
@@ -209,7 +211,7 @@ export const useEditorStore = create<EditorState>((set) => ({
           pages,
         },
 
-        selectedBlockId: block.id,
+        selectedNodeId: node.id,
         propertiesPanel: "text",
       };
     }),

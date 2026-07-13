@@ -1,10 +1,12 @@
-import { Block } from "./block";
-
+import { DocumentNode } from "./node";
 export interface DocumentPage {
   id: string;
+
   width: number;
+
   height: number;
+
   background: string;
 
-  blocks: Block[];
+  nodes: DocumentNode[];
 }

@@ -1,4 +1,5 @@
 import { EditorDocument } from "../types/document";
+import { heading, paragraph } from "../factories/node";
 
 export const powerOfAttorneyTemplate: EditorDocument = {
   id: "power-of-attorney",
@@ -15,74 +16,34 @@ export const powerOfAttorneyTemplate: EditorDocument = {
 
       background: "#ffffff",
 
-      blocks: [
-        {
-          id: "title",
+      nodes: [
+        heading("title", "POWER OF ATTORNEY"),
 
-          type: "text",
+        paragraph(
+          "body",
+          `I hereby appoint __________________________ as my lawful attorney to act on my behalf in all matters specified in this document.
 
-          x: 180,
-          y: 70,
+The appointed attorney shall have full authority to perform the duties and responsibilities described herein until this authorization is revoked.
 
-          width: 450,
-          height: 40,
+Name of Principal:
+_____________________________________
 
-          rotation: 0,
+Name of Attorney:
+_____________________________________
 
-          locked: false,
+Address:
+_____________________________________
 
-          visible: true,
+National ID / Passport No.:
+_____________________________________
 
-          text: "POWER OF ATTORNEY",
+Date:
+_____________________________________
 
-          fontFamily: "Times New Roman",
+Signature of Principal
 
-          fontSize: 26,
-
-          color: "#111827",
-
-          bold: true,
-
-          italic: false,
-
-          underline: true,
-
-          align: "center",
-        },
-
-        {
-          id: "body",
-
-          type: "text",
-
-          x: 70,
-          y: 150,
-
-          width: 650,
-          height: 400,
-
-          rotation: 0,
-
-          locked: false,
-
-          visible: true,
-
-          text: "I hereby appoint __________________ as my lawful attorney to act on my behalf in all matters specified in this document.",
-
-          fontFamily: "Times New Roman",
-
-          fontSize: 16,
-
-          color: "#333333",
-
-          bold: false,
-
-          italic: false,
-
-          underline: false,
-
-          align: "left",
-        },
+_____________________________________`,
+        ),
       ],
     },
   ],

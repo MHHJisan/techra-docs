@@ -1,18 +1,43 @@
-// Inlined DocumentNode to avoid missing-module errors for './document-node'
-export interface DocumentNode {
-  id: string;
-  type?: string;
-  // payload can hold any node-specific data
-  payload?: Record<string, unknown>;
-}
-
-export interface DocumentPage {
-  id: string;
-  nodes: DocumentNode[];
-}
+import { DocumentPage } from "./page";
 
 export interface EditorDocument {
   id: string;
+
   title: string;
+
   pages: DocumentPage[];
+}
+
+export interface SavedDocument {
+  id: string;
+
+  title: string;
+
+  updatedAt: string;
+
+  createdAt: string;
+
+  document: EditorDocument;
+}
+
+export interface PrintHistory {
+  id: string;
+
+  documentId: string;
+
+  documentTitle: string;
+
+  printedAt: string;
+}
+
+export interface DownloadHistory {
+  id: string;
+
+  documentId: string;
+
+  fileName: string;
+
+  type: "pdf" | "docx";
+
+  downloadedAt: string;
 }

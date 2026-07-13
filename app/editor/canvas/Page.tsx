@@ -1,9 +1,7 @@
 "use client";
 
 import { DocumentPage } from "../types/page";
-import BlockRenderer from "./BlockRenderer";
-
-// import BlockRenderer from "./BlockRenderer";
+import NodeRenderer from "./NodeRenderer";
 
 interface Props {
   page: DocumentPage;
@@ -12,15 +10,16 @@ interface Props {
 export default function Page({ page }: Props) {
   return (
     <div
-      className="relative mx-auto rounded-sm border border-gray-300 bg-white shadow-xl"
+      className="mx-auto rounded-sm border border-gray-300 bg-white shadow-xl"
       style={{
         width: page.width,
-        height: page.height,
-        background: page.background,
+        minHeight: page.height,
+        backgroundColor: page.background,
+        padding: "25mm",
       }}
     >
-      {page.blocks.map((block) => (
-        <BlockRenderer key={block.id} block={block} />
+      {page.nodes.map((node) => (
+        <NodeRenderer key={node.id} node={node} />
       ))}
     </div>
   );
