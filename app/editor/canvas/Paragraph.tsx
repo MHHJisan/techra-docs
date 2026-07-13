@@ -13,10 +13,11 @@ interface Props {
 export default function Paragraph({ pageId, node }: Props) {
   const updateNode = useEditorStore((state) => state.updateNode);
 
+  const updateNodeHeight = useEditorStore((state) => state.updateNodeHeight);
+
   const ref = useRef<HTMLDivElement>(null);
 
-  // Only update DOM when the document changes externally.
-  // Never overwrite while the user is actively editing.
+  // Sync external updates into the editor
   useEffect(() => {
     if (!ref.current) return;
 
@@ -24,6 +25,21 @@ export default function Paragraph({ pageId, node }: Props) {
       ref.current.textContent = node.text;
     }
   }, [node.text]);
+
+  // Observe actual rendered height
+  useEffect(() => {
+    if (!ref.current) return;
+
+    const observer = new ResizeObserver(() => {
+      if (!ref.current) return;
+
+      updateNodeHeight(pageId, node.id, ref.current.scrollHeight);
+    });
+
+    observer.observe(ref.current);
+
+    return () => observer.disconnect();
+  }, [pageId, node.id, updateNodeHeight]);
 
   return (
     <div
@@ -37,19 +53,8 @@ export default function Paragraph({ pageId, node }: Props) {
         lineHeight: 1.8,
       }}
       onInput={(e) => {
-        if (!ref.current) return;
-
         updateNode(pageId, node.id, {
           text: e.currentTarget.textContent ?? "",
-          height: ref.current.scrollHeight,
-        });
-      }}
-      onBlur={() => {
-        if (!ref.current) return;
-
-        updateNode(pageId, node.id, {
-          text: ref.current.textContent ?? "",
-          height: ref.current.scrollHeight,
         });
       }}
     />

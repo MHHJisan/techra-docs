@@ -95,6 +95,8 @@ interface EditorState {
     nodeId: string,
     updateds: Partial<ParagraphNode>,
   ) => void;
+
+  updateNodeHeight: (pageId: string, nodeId: string, height: number) => void;
 }
 
 export const useEditorStore = create<EditorState>((set) => ({
@@ -227,26 +229,51 @@ export const useEditorStore = create<EditorState>((set) => ({
     set((state) => {
       if (!state.document) return state;
 
-      const pages = state.document.pages.map((page) => {
-        if (page.id !== pageId) return page;
-
-        return {
-          ...page,
-
-          nodes: page.nodes.map((node) => {
-            if (node.id !== nodeId) return node;
+      return {
+        document: {
+          ...state.document,
+          pages: state.document.pages.map((page) => {
+            if (page.id !== pageId) return page;
 
             return {
-              ...node,
-              ...updates,
+              ...page,
+              nodes: page.nodes.map((node) =>
+                node.id === nodeId
+                  ? {
+                      ...node,
+                      ...updates,
+                    }
+                  : node,
+              ),
             };
           }),
-        };
-      });
+        },
+      };
+    }),
 
-      const updatedDocument = {
+  updateNodeHeight: (pageId, nodeId, height) =>
+    set((state) => {
+      if (!state.document) return state;
+
+      const updatedDocument: EditorDocument = {
         ...state.document,
-        pages,
+
+        pages: state.document.pages.map((page) => {
+          if (page.id !== pageId) return page;
+
+          return {
+            ...page,
+
+            nodes: page.nodes.map((node) =>
+              node.id === nodeId
+                ? {
+                    ...node,
+                    height,
+                  }
+                : node,
+            ),
+          };
+        }),
       };
 
       return {
