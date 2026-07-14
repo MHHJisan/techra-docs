@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 
 import { ParagraphNode } from "../types/node";
 import { useEditorStore } from "../store/editor-store";
+import { useNodeHeight } from "../hooks/useNodeHeight";
 
 interface Props {
   pageId: string;
@@ -17,36 +18,27 @@ export default function Paragraph({ pageId, node }: Props) {
 
   const ref = useRef<HTMLDivElement>(null);
 
-  // Sync external updates into the editor
+  // Keep DOM synchronized when the document changes externally
   useEffect(() => {
     if (!ref.current) return;
 
     if (document.activeElement !== ref.current) {
-      ref.current.textContent = node.text;
+      if (ref.current.textContent !== node.text) {
+        ref.current.textContent = node.text;
+      }
     }
   }, [node.text]);
 
-  // Observe actual rendered height
-  useEffect(() => {
-    if (!ref.current) return;
-
-    const observer = new ResizeObserver(() => {
-      if (!ref.current) return;
-
-      updateNodeHeight(pageId, node.id, ref.current.scrollHeight);
-    });
-
-    observer.observe(ref.current);
-
-    return () => observer.disconnect();
-  }, [pageId, node.id, updateNodeHeight]);
+  // Observe rendered height
+  useNodeHeight(ref, pageId, node.id, updateNodeHeight);
 
   return (
     <div
       ref={ref}
       contentEditable
       suppressContentEditableWarning
-      className="mb-5 whitespace-pre-wrap outline-none"
+      spellCheck={false}
+      className="mb-5 whitespace-pre-wrap wrap-break-word outline-none"
       style={{
         fontSize: node.fontSize,
         textAlign: node.align,

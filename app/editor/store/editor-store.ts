@@ -229,32 +229,6 @@ export const useEditorStore = create<EditorState>((set) => ({
     set((state) => {
       if (!state.document) return state;
 
-      return {
-        document: {
-          ...state.document,
-          pages: state.document.pages.map((page) => {
-            if (page.id !== pageId) return page;
-
-            return {
-              ...page,
-              nodes: page.nodes.map((node) =>
-                node.id === nodeId
-                  ? {
-                      ...node,
-                      ...updates,
-                    }
-                  : node,
-              ),
-            };
-          }),
-        },
-      };
-    }),
-
-  updateNodeHeight: (pageId, nodeId, height) =>
-    set((state) => {
-      if (!state.document) return state;
-
       const updatedDocument: EditorDocument = {
         ...state.document,
 
@@ -268,13 +242,55 @@ export const useEditorStore = create<EditorState>((set) => ({
               node.id === nodeId
                 ? {
                     ...node,
-                    height,
+                    ...updates,
                   }
                 : node,
             ),
           };
         }),
       };
+
+      return {
+        document: updatedDocument,
+      };
+    }),
+
+  updateNodeHeight: (pageId, nodeId, height) =>
+    set((state) => {
+      if (!state.document) return state;
+
+      let changed = false;
+
+      const updatedDocument: EditorDocument = {
+        ...state.document,
+
+        pages: state.document.pages.map((page) => {
+          if (page.id !== pageId) return page;
+
+          return {
+            ...page,
+
+            nodes: page.nodes.map((node) => {
+              if (node.id !== nodeId) return node;
+
+              if (node.height === height) {
+                return node;
+              }
+
+              changed = true;
+
+              return {
+                ...node,
+                height,
+              };
+            }),
+          };
+        }),
+      };
+
+      if (!changed) {
+        return state;
+      }
 
       return {
         document: paginate(updatedDocument),

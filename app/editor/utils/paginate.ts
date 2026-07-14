@@ -3,40 +3,41 @@ import { DocumentPage } from "../types/page";
 import { createPage, PAGE_HEIGHT } from "../factories/page";
 
 const PAGE_PADDING = 70;
+const PAGE_CONTENT_HEIGHT = PAGE_HEIGHT - PAGE_PADDING * 2;
 
 export function paginate(document: EditorDocument): EditorDocument {
-  const newPages: DocumentPage[] = [];
+  const pages: DocumentPage[] = [];
 
   let pageNumber = 1;
-
   let currentPage = createPage(`page-${pageNumber}`);
+  let usedHeight = 0;
 
-  let currentHeight = PAGE_PADDING;
+  const nodes = document.pages.flatMap((page) => page.nodes);
 
-  const allNodes = document.pages.flatMap((page) => page.nodes);
+  for (const node of nodes) {
+    const nodeHeight = Math.max(node.height ?? 40, 40);
 
-  for (const node of allNodes) {
-    const nodeHeight = node.height ?? 40;
-
-    if (currentHeight + nodeHeight > PAGE_HEIGHT - PAGE_PADDING) {
-      newPages.push(currentPage);
+    // Move the whole node to the next page
+    if (
+      currentPage.nodes.length > 0 &&
+      usedHeight + nodeHeight > PAGE_CONTENT_HEIGHT
+    ) {
+      pages.push(currentPage);
 
       pageNumber++;
 
       currentPage = createPage(`page-${pageNumber}`);
-
-      currentHeight = PAGE_PADDING;
+      usedHeight = 0;
     }
 
     currentPage.nodes.push(node);
-
-    currentHeight += nodeHeight;
+    usedHeight += nodeHeight;
   }
 
-  newPages.push(currentPage);
+  pages.push(currentPage);
 
   return {
     ...document,
-    pages: newPages,
+    pages,
   };
 }
