@@ -1,5 +1,6 @@
 import { DocumentNode } from "./node";
-export interface DocumentPage {
+
+export interface RenderPage {
   id: string;
 
   width: number;
@@ -8,5 +9,5 @@ export interface DocumentPage {
 
   background: string;
 
-  nodes: DocumentNode[];
+  blocks: DocumentNode[];
 }

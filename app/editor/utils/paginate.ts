@@ -1,42 +1,41 @@
 import { EditorDocument } from "../types/document";
-import { DocumentPage } from "../types/page";
-import { createPage, PAGE_HEIGHT } from "../factories/page";
+import { RenderPage } from "../types/RenderPage";
 
-const PAGE_PADDING = 70;
+import {
+  createRenderPage,
+  PAGE_HEIGHT,
+  PAGE_PADDING_TOP,
+  PAGE_PADDING_BOTTOM,
+} from "../factories/render-page";
 
-export function paginate(document: EditorDocument): EditorDocument {
-  const newPages: DocumentPage[] = [];
+export function paginate(document: EditorDocument): RenderPage[] {
+  const pages: RenderPage[] = [];
 
   let pageNumber = 1;
 
-  let currentPage = createPage(`page-${pageNumber}`);
+  let currentPage = createRenderPage(`page-${pageNumber}`);
 
-  let currentHeight = PAGE_PADDING;
+  let currentHeight = PAGE_PADDING_TOP;
 
-  const allNodes = document.pages.flatMap((page) => page.nodes);
+  for (const block of document.blocks) {
+    const blockHeight = Math.max(block.height ?? 40, 40);
 
-  for (const node of allNodes) {
-    const nodeHeight = node.height ?? 40;
-
-    if (currentHeight + nodeHeight > PAGE_HEIGHT - PAGE_PADDING) {
-      newPages.push(currentPage);
+    if (currentHeight + blockHeight > PAGE_HEIGHT - PAGE_PADDING_BOTTOM) {
+      pages.push(currentPage);
 
       pageNumber++;
 
-      currentPage = createPage(`page-${pageNumber}`);
+      currentPage = createRenderPage(`page-${pageNumber}`);
 
-      currentHeight = PAGE_PADDING;
+      currentHeight = PAGE_PADDING_TOP;
     }
 
-    currentPage.nodes.push(node);
+    currentPage.blocks.push(block);
 
-    currentHeight += nodeHeight;
+    currentHeight += blockHeight;
   }
 
-  newPages.push(currentPage);
+  pages.push(currentPage);
 
-  return {
-    ...document,
-    pages: newPages,
-  };
+  return pages;
 }

@@ -6,11 +6,10 @@ import { HeadingNode } from "../types/node";
 import { useEditorStore } from "../store/editor-store";
 
 interface Props {
-  pageId: string;
   node: HeadingNode;
 }
 
-export default function Heading({ pageId, node }: Props) {
+export default function Heading({ node }: Props) {
   const updateNode = useEditorStore((state) => state.updateNode);
 
   const ref = useRef<HTMLHeadingElement>(null);
@@ -29,7 +28,7 @@ export default function Heading({ pageId, node }: Props) {
       onBlur={() => {
         if (!ref.current) return;
 
-        updateNode(pageId, node.id, {
+        updateNode(node.id, {
           text: ref.current.textContent ?? "",
           height: ref.current.scrollHeight,
         });

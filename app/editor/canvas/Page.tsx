@@ -1,10 +1,11 @@
 "use client";
 
-import { DocumentPage } from "../types/page";
+import { DocumentNode } from "../types/node";
+import { RenderPage } from "../types/RenderPage";
 import NodeRenderer from "./NodeRenderer";
 
 interface Props {
-  page: DocumentPage;
+  page: RenderPage;
 }
 
 export default function Page({ page }: Props) {
@@ -18,8 +19,8 @@ export default function Page({ page }: Props) {
         padding: "25mm",
       }}
     >
-      {page.nodes.map((node) => (
-        <NodeRenderer key={node.id} pageId={page.id} node={node} />
+      {page.blocks.map((node: DocumentNode) => (
+        <NodeRenderer key={node.id} node={node} />
       ))}
     </div>
   );

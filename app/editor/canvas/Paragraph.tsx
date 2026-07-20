@@ -6,11 +6,10 @@ import { ParagraphNode } from "../types/node";
 import { useEditorStore } from "../store/editor-store";
 
 interface Props {
-  pageId: string;
   node: ParagraphNode;
 }
 
-export default function Paragraph({ pageId, node }: Props) {
+export default function Paragraph({ node }: Props) {
   const updateNode = useEditorStore((state) => state.updateNode);
 
   const updateNodeHeight = useEditorStore((state) => state.updateNodeHeight);
@@ -33,13 +32,13 @@ export default function Paragraph({ pageId, node }: Props) {
     const observer = new ResizeObserver(() => {
       if (!ref.current) return;
 
-      updateNodeHeight(pageId, node.id, ref.current.scrollHeight);
+      updateNodeHeight(node.id, ref.current.scrollHeight);
     });
 
     observer.observe(ref.current);
 
     return () => observer.disconnect();
-  }, [pageId, node.id, updateNodeHeight]);
+  }, [node.id, updateNodeHeight]);
 
   return (
     <div
@@ -53,7 +52,7 @@ export default function Paragraph({ pageId, node }: Props) {
         lineHeight: 1.8,
       }}
       onInput={(e) => {
-        updateNode(pageId, node.id, {
+        updateNode(node.id, {
           text: e.currentTarget.textContent ?? "",
         });
       }}

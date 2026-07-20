@@ -1,7 +1,7 @@
-import { DocumentNode } from "../types/node";
+import { HeadingNode, ParagraphNode } from "../types/node";
 import { measureParagraph } from "../utils/measure-paragraph";
 
-export function heading(id: string, text: string): DocumentNode {
+export function heading(id: string, text: string): HeadingNode {
   return {
     id,
 
@@ -32,7 +32,7 @@ export function paragraph(
   id: string,
   text: string,
   align: "left" | "center" | "right" = "left",
-): DocumentNode {
+): ParagraphNode {
   return {
     id,
     type: "paragraph",

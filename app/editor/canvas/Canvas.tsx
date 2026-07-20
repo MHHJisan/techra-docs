@@ -1,12 +1,21 @@
 "use client";
 
+import { useMemo } from "react";
+
 import { useEditorStore } from "../store/editor-store";
+import { paginate } from "../utils/paginate";
+
 import Page from "./Page";
 
 export default function Canvas() {
   const document = useEditorStore((state) => state.document);
-
   const zoom = useEditorStore((state) => state.zoom);
+
+  const pages = useMemo(() => {
+    if (!document) return [];
+
+    return paginate(document);
+  }, [document]);
 
   if (!document) {
     return (
@@ -25,9 +34,8 @@ export default function Canvas() {
           transformOrigin: "top center",
         }}
       >
-        {document.pages.map((page) => (
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          <Page key={page.id} page={page as any} />
+        {pages.map((page) => (
+          <Page key={page.id} page={page} />
         ))}
       </div>
     </main>

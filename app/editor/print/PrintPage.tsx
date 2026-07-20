@@ -1,10 +1,11 @@
 "use client";
 
-import { DocumentPage } from "../types/page";
+import { RenderPage } from "../types/RenderPage";
+import { DocumentNode } from "../types/node";
 import PrintNodeRenderer from "./PrintNodeRenderer";
 
 interface Props {
-  page: DocumentPage;
+  page: RenderPage;
 }
 
 export default function PrintPage({ page }: Props) {
@@ -14,21 +15,15 @@ export default function PrintPage({ page }: Props) {
       style={{
         width: "210mm",
         minHeight: "297mm",
-
         margin: "0 auto 20px",
-
         padding: "20mm",
-
         background: "#fff",
-
         boxSizing: "border-box",
-
         boxShadow: "0 0 15px rgba(0,0,0,.15)",
-
         pageBreakAfter: "always",
       }}
     >
-      {page.nodes.map((node) => (
+      {page.blocks.map((node: DocumentNode) => (
         <PrintNodeRenderer key={node.id} node={node} />
       ))}
     </div>

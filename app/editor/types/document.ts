@@ -1,11 +1,10 @@
-import { DocumentPage } from "./page";
+import { DocumentNode } from "./node";
 
 export interface EditorDocument {
   id: string;
-
   title: string;
 
-  pages: DocumentPage[];
+  blocks: DocumentNode[];
 }
 
 export interface SavedDocument {
@@ -13,9 +12,9 @@ export interface SavedDocument {
 
   title: string;
 
-  updatedAt: string;
-
   createdAt: string;
+
+  updatedAt: string;
 
   document: EditorDocument;
 }

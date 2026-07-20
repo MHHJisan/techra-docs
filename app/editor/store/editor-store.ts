@@ -3,10 +3,8 @@
 import { create } from "zustand";
 
 import { EditorDocument } from "../types/document";
-
+import { DocumentNode } from "../types/node";
 import { paragraph } from "../factories/node";
-import { paginate } from "../utils/paginate";
-import { ParagraphNode } from "../types/node";
 
 export type Language = "bn" | "en";
 
@@ -28,48 +26,19 @@ export type EditorView =
   | "settings";
 
 interface EditorState {
-  // ==========================================
-  // Document
-  // ==========================================
-
   document: EditorDocument | null;
-
-  // ==========================================
-  // Language
-  // ==========================================
 
   language: Language;
 
-  // ==========================================
-  // Current Screen
-  // ==========================================
-
   currentView: EditorView;
 
-  // ==========================================
-  // Properties Panel
-  // ==========================================
-
   propertiesPanel: PropertiesPanel;
-
-  // ==========================================
-  // Editor
-  // ==========================================
 
   zoom: number;
 
   activeTool: ActiveTool;
 
-  // ==========================================
-  // Selection
-  // ==========================================
-
-  selectedPageId: string | null;
-
   selectedNodeId: string | null;
-  // ==========================================
-  // Actions
-  // ==========================================
 
   setDocument: (document: EditorDocument) => void;
 
@@ -81,29 +50,19 @@ interface EditorState {
 
   setActiveTool: (tool: ActiveTool) => void;
 
-  selectPage: (pageId: string | null) => void;
-
   selectNode: (nodeId: string | null) => void;
+
   openProperties: (panel: PropertiesPanel) => void;
 
   closeProperties: () => void;
 
   addTextBlock: () => void;
 
-  updateNode: (
-    pageId: string,
-    nodeId: string,
-    updateds: Partial<ParagraphNode>,
-  ) => void;
-
-  updateNodeHeight: (pageId: string, nodeId: string, height: number) => void;
+  updateNode: (nodeId: string, updates: Partial<DocumentNode>) => void;
+  updateNodeHeight: (nodeId: string, height: number) => void;
 }
 
 export const useEditorStore = create<EditorState>((set) => ({
-  // ==========================================
-  // Initial State
-  // ==========================================
-
   document: null,
 
   language: "bn",
@@ -116,44 +75,37 @@ export const useEditorStore = create<EditorState>((set) => ({
 
   activeTool: "select",
 
-  selectedPageId: null,
-
   selectedNodeId: null,
 
-  // ==========================================
-  // Document
-  // ==========================================
-
-  setDocument: (document) => {
-    const paginated = paginate(document);
-
+  setDocument: (document) =>
     set({
-      document: paginated,
-      selectedPageId: paginated.pages[0]?.id ?? null,
-    });
-  },
-
-  // ==========================================
-  // Language
-  // ==========================================
+      document,
+    }),
 
   setLanguage: (language) =>
     set({
       language,
     }),
 
-  // ==========================================
-  // Current View
-  // ==========================================
-
   setCurrentView: (view) =>
     set({
       currentView: view,
     }),
 
-  // ==========================================
-  // Properties
-  // ==========================================
+  setZoom: (zoom) =>
+    set({
+      zoom,
+    }),
+
+  setActiveTool: (tool) =>
+    set({
+      activeTool: tool,
+    }),
+
+  selectNode: (nodeId) =>
+    set({
+      selectedNodeId: nodeId,
+    }),
 
   openProperties: (panel) =>
     set({
@@ -166,118 +118,59 @@ export const useEditorStore = create<EditorState>((set) => ({
       selectedNodeId: null,
     }),
 
-  // ==========================================
-  // Zoom
-  // ==========================================
-
-  setZoom: (zoom) =>
-    set({
-      zoom,
-    }),
-
-  // ==========================================
-  // Active Tool
-  // ==========================================
-
-  setActiveTool: (tool) =>
-    set({
-      activeTool: tool,
-    }),
-
-  // ==========================================
-  // Selection
-  // ==========================================
-
-  selectPage: (pageId) =>
-    set({
-      selectedPageId: pageId,
-    }),
-
-  selectNode: (nodeId) =>
-    set({
-      selectedNodeId: nodeId,
-    }),
-  // ==========================================
-  // Blocks
-  // ==========================================
-
   addTextBlock: () =>
     set((state) => {
       if (!state.document) return state;
 
       const node = paragraph(crypto.randomUUID(), "নতুন লেখা...");
 
-      const pages = [...state.document.pages];
-
-      pages[0] = {
-        ...pages[0],
-        nodes: [...pages[0].nodes, node],
-      };
-
       return {
         document: {
           ...state.document,
-          pages,
+          blocks: [...state.document.blocks, node],
         },
 
         selectedNodeId: node.id,
+
         propertiesPanel: "text",
       };
     }),
 
-  updateNode: (pageId, nodeId, updates) =>
+  updateNode: (nodeId, updates) =>
     set((state) => {
       if (!state.document) return state;
 
       return {
         document: {
           ...state.document,
-          pages: state.document.pages.map((page) => {
-            if (page.id !== pageId) return page;
-
-            return {
-              ...page,
-              nodes: page.nodes.map((node) =>
-                node.id === nodeId
-                  ? {
-                      ...node,
-                      ...updates,
-                    }
-                  : node,
-              ),
-            };
-          }),
+          blocks: state.document.blocks.map((node) =>
+            node.id === nodeId
+              ? ({
+                  ...node,
+                  ...updates,
+                } as DocumentNode)
+              : node,
+          ),
         },
       };
     }),
 
-  updateNodeHeight: (pageId, nodeId, height) =>
+  updateNodeHeight: (nodeId, height) =>
     set((state) => {
       if (!state.document) return state;
 
-      const updatedDocument: EditorDocument = {
-        ...state.document,
-
-        pages: state.document.pages.map((page) => {
-          if (page.id !== pageId) return page;
-
-          return {
-            ...page,
-
-            nodes: page.nodes.map((node) =>
-              node.id === nodeId
-                ? {
-                    ...node,
-                    height,
-                  }
-                : node,
-            ),
-          };
-        }),
-      };
-
       return {
-        document: paginate(updatedDocument),
+        document: {
+          ...state.document,
+          blocks: state.document.blocks.map((node) =>
+            node.id === nodeId
+              ? {
+                  ...node,
+                  height,
+                }
+              : node,
+          ),
+        },
       };
     }),
 }));
