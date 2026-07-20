@@ -1,22 +1,30 @@
 import { DocumentNode } from "../types/node";
 import { measureParagraph } from "../utils/measure-paragraph";
 
-export function heading(
-  id: string,
-  text: string,
-  align: "left" | "center" | "right" = "center",
-): DocumentNode {
+export function heading(id: string, text: string): DocumentNode {
   return {
     id,
+
     type: "heading",
 
     text,
 
     fontSize: 28,
 
-    align,
+    align: "center",
 
-    // height: 60,
+    height: 60,
+
+    spacingBefore: 0,
+    spacingAfter: 20,
+
+    keepWithNext: true,
+
+    pageBreakBefore: false,
+
+    visible: true,
+
+    locked: false,
   };
 }
 
@@ -34,6 +42,15 @@ export function paragraph(
     fontSize: 16,
 
     align,
+
     height: measureParagraph(text),
+    spacingBefore: 0,
+    spacingAfter: 20,
+
+    keepWithNext: false,
+    pageBreakBefore: false,
+
+    visible: true,
+    locked: false,
   };
 }

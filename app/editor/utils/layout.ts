@@ -20,8 +20,7 @@ export function buildPages(document: EditorDocument): RenderPage[] {
   const blocks: DocumentBlock[] = document.blocks ?? [];
 
   for (const block of blocks) {
-    const blockHeight =
-      Math.max(block.height ?? 40, 40) + (block.marginBottom ?? 0);
+    const blockHeight = Math.max(block.height ?? 40, 40);
     if (currentHeight + blockHeight > PAGE_HEIGHT - PAGE_PADDING_BOTTOM) {
       pages.push(currentPage);
 

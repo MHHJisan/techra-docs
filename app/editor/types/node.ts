@@ -5,12 +5,27 @@ export type NodeType =
   | "image"
   | "signature";
 
+export type TextAlign = "left" | "center" | "right";
+
 interface BaseNode {
   id: string;
 
   type: NodeType;
 
-  height?: number;
+  // Automatically updated by the editor
+  height: number;
+
+  // Layout
+  spacingBefore: number;
+  spacingAfter: number;
+
+  // Pagination
+  keepWithNext?: boolean;
+  pageBreakBefore?: boolean;
+
+  // Visibility
+  visible: boolean;
+  locked: boolean;
 }
 
 export interface HeadingNode extends BaseNode {
@@ -20,7 +35,7 @@ export interface HeadingNode extends BaseNode {
 
   fontSize: number;
 
-  align: "left" | "center" | "right";
+  align: TextAlign;
 }
 
 export interface ParagraphNode extends BaseNode {
@@ -30,7 +45,30 @@ export interface ParagraphNode extends BaseNode {
 
   fontSize: number;
 
-  align: "left" | "center" | "right";
+  align: TextAlign;
 }
 
-export type DocumentNode = HeadingNode | ParagraphNode;
+export interface ImageNode extends BaseNode {
+  type: "image";
+
+  src: string;
+
+  width: number;
+
+  height: number;
+}
+
+export interface TableNode extends BaseNode {
+  type: "table";
+}
+
+export interface SignatureNode extends BaseNode {
+  type: "signature";
+}
+
+export type DocumentNode =
+  | HeadingNode
+  | ParagraphNode
+  | ImageNode
+  | TableNode
+  | SignatureNode;
