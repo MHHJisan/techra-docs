@@ -15,7 +15,7 @@ export async function exportDOCX(document: EditorDocument) {
   const sections = [
     {
       properties: {},
-      children: document.blocks.map((node) => {
+      children: (document.blocks ?? []).map((node) => {
         switch (node.type) {
           case "heading":
             return new Paragraph({

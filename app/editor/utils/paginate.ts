@@ -1,6 +1,6 @@
 import { EditorDocument } from "../types/document";
 import { RenderPage } from "../types/RenderPage";
-import { getDocumentBlocks } from "./normalize-document";
+// import { getDocumentBlocks } from "./normalize-document";
 
 import {
   createRenderPage,
@@ -21,8 +21,8 @@ export function paginate(document: EditorDocument): RenderPage[] {
 
   const CONTENT_HEIGHT = PAGE_HEIGHT - PAGE_PADDING_BOTTOM - FOOTER_HEIGHT;
 
-  for (let i = 0; i < document.blocks.length; i++) {
-    const block = document.blocks[i];
+  for (let i = 0; i < (document.blocks?.length ?? 0); i++) {
+    const block = document.blocks![i];
 
     // Force a new page before this block
     if (block.pageBreakBefore && currentPage.blocks.length > 0) {
