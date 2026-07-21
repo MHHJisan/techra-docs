@@ -17,6 +17,8 @@ export default function Canvas() {
     return paginate(document);
   }, [document]);
 
+  console.log("Canvas pages:", pages.length);
+
   if (!document) {
     return (
       <main className="flex flex-1 items-center justify-center bg-gray-100">

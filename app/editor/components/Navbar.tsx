@@ -6,6 +6,7 @@ import { Bell, Search, Settings, ChevronDown, Languages } from "lucide-react";
 
 import { useEditorStore } from "../store/editor-store";
 import { useTranslation } from "../hooks/useTranslation";
+import Image from "next/image";
 
 const LANGUAGES = [
   {
@@ -99,12 +100,13 @@ export default function Navbar() {
 
         {/* User */}
         <button className="flex items-center gap-3 rounded-full border border-gray-200 bg-white px-2 py-1 transition hover:bg-gray-50">
-          <img
+          <Image
             src="https://i.pravatar.cc/150?img=12"
             alt="User"
+            width={40}
+            height={40}
             className="h-10 w-10 rounded-full object-cover"
           />
-
           <div className="hidden text-left lg:block">
             <p className="text-sm font-semibold text-gray-800">Jisan</p>
 

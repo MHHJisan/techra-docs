@@ -12,7 +12,7 @@ export interface EditorDocument {
   id: string;
   title: string;
 
-  blocks?: DocumentNode[];
+  blocks: DocumentNode[];
   pages?: DocumentPage[];
 }
 

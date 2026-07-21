@@ -5,7 +5,10 @@ import { create } from "zustand";
 import { EditorDocument } from "../types/document";
 import { DocumentNode } from "../types/node";
 import { paragraph } from "../factories/node";
-import { normalizeEditorDocument, getDocumentBlocks } from "../utils/normalize-document";
+import {
+  normalizeEditorDocument,
+  getDocumentBlocks,
+} from "../utils/normalize-document";
 
 export type Language = "bn" | "en";
 
@@ -164,21 +167,26 @@ export const useEditorStore = create<EditorState>((set) => ({
     set((state) => {
       if (!state.document) return state;
 
-      console.log("HEIGHT UPDATE", nodeId, height);
+      console.log("Updating", nodeId, "=>", height);
 
-      const blocks = getDocumentBlocks(state.document);
+      const blocks = state.document.blocks.map((node) =>
+        node.id === nodeId
+          ? {
+              ...node,
+              height,
+            }
+          : node,
+      );
+
+      const updatedNode = blocks.find((n) => n.id === nodeId);
+
+      console.log("Stored height:", updatedNode?.height);
 
       return {
         document: {
           ...state.document,
-          blocks: blocks.map((node) =>
-            node.id === nodeId
-              ? {
-                  ...node,
-                  height,
-                }
-              : node,
-          ),
+          blocks,
         },
       };
-    }),}));
+    }),
+}));

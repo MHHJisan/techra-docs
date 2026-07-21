@@ -17,6 +17,7 @@ interface Props {
 }
 
 export default function Page({ page }: Props) {
+  console.log("Rendering page", page.pageNumber, "blocks:", page.blocks.length);
   return (
     <div
       className="relative mx-auto border border-gray-300 bg-white shadow-xl"
