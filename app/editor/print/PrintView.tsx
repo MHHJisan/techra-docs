@@ -1,13 +1,16 @@
 "use client";
 
 import { EditorDocument } from "../types/document";
+import { paginate } from "../utils/paginate";
 import PrintPage from "./PrintPage";
 
 interface Props {
   document: EditorDocument;
 }
 
-export default function PrintView({ document }: Props) {
+export default function PrintView({ document: editorDocument }: Props) {
+  const pages = paginate(editorDocument);
+
   return (
     <main
       style={{
@@ -16,7 +19,7 @@ export default function PrintView({ document }: Props) {
         padding: "40px 0",
       }}
     >
-      {document.pages.map((page) => (
+      {pages.map((page) => (
         <PrintPage key={page.id} page={page} />
       ))}
     </main>

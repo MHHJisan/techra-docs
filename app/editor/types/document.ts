@@ -1,10 +1,19 @@
 import { DocumentNode } from "./node";
 
+export interface DocumentPage {
+  id: string;
+  width: number;
+  height: number;
+  background: string;
+  nodes: DocumentNode[];
+}
+
 export interface EditorDocument {
   id: string;
   title: string;
 
-  blocks: DocumentNode[];
+  blocks?: DocumentNode[];
+  pages?: DocumentPage[];
 }
 
 export interface SavedDocument {

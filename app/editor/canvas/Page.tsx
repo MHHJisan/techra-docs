@@ -3,14 +3,14 @@
 import {
   PAGE_HEIGHT,
   PAGE_PADDING_BOTTOM,
+  PAGE_PADDING_LEFT,
+  PAGE_PADDING_RIGHT,
   PAGE_PADDING_TOP,
+  FOOTER_HEIGHT,
 } from "../factories/render-page";
 import { DocumentNode } from "../types/node";
 import { RenderPage } from "../types/RenderPage";
 import NodeRenderer from "./NodeRenderer";
-
-const PAGE_PADDING = 25; // mm
-const FOOTER_HEIGHT = 12; // mm
 
 interface Props {
   page: RenderPage;
@@ -29,8 +29,10 @@ export default function Page({ page }: Props) {
       {/* Content */}
       <div
         style={{
-          padding: `${PAGE_PADDING}mm`,
-          paddingBottom: `${PAGE_PADDING + FOOTER_HEIGHT}mm`,
+          paddingTop: `${PAGE_PADDING_TOP}px`,
+          paddingBottom: `${PAGE_PADDING_BOTTOM + FOOTER_HEIGHT}px`,
+          paddingLeft: `${PAGE_PADDING_LEFT}px`,
+          paddingRight: `${PAGE_PADDING_RIGHT}px`,
           boxSizing: "border-box",
           height:
             PAGE_HEIGHT -
@@ -48,10 +50,10 @@ export default function Page({ page }: Props) {
       <div
         className="absolute border-t border-gray-300 text-sm text-gray-600"
         style={{
-          left: `${PAGE_PADDING}mm`,
-          right: `${PAGE_PADDING}mm`,
-          bottom: `${PAGE_PADDING}mm`,
-          height: `${FOOTER_HEIGHT}mm`,
+          left: `${PAGE_PADDING_LEFT}px`,
+          right: `${PAGE_PADDING_RIGHT}px`,
+          bottom: `${PAGE_PADDING_BOTTOM}px`,
+          height: `${FOOTER_HEIGHT}px`,
           display: "flex",
           alignItems: "center",
           justifyContent: "flex-end",

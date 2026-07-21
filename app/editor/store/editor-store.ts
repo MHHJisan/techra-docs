@@ -5,6 +5,7 @@ import { create } from "zustand";
 import { EditorDocument } from "../types/document";
 import { DocumentNode } from "../types/node";
 import { paragraph } from "../factories/node";
+import { normalizeEditorDocument, getDocumentBlocks } from "../utils/normalize-document";
 
 export type Language = "bn" | "en";
 
@@ -79,7 +80,7 @@ export const useEditorStore = create<EditorState>((set) => ({
 
   setDocument: (document) =>
     set({
-      document,
+      document: normalizeEditorDocument(document),
     }),
 
   setLanguage: (language) =>
@@ -123,11 +124,12 @@ export const useEditorStore = create<EditorState>((set) => ({
       if (!state.document) return state;
 
       const node = paragraph(crypto.randomUUID(), "নতুন লেখা...");
+      const blocks = getDocumentBlocks(state.document);
 
       return {
         document: {
           ...state.document,
-          blocks: [...state.document.blocks, node],
+          blocks: [...blocks, node],
         },
 
         selectedNodeId: node.id,
@@ -142,10 +144,12 @@ export const useEditorStore = create<EditorState>((set) => ({
 
       console.log("TEXT UPDATE", nodeId);
 
+      const blocks = getDocumentBlocks(state.document);
+
       return {
         document: {
           ...state.document,
-          blocks: state.document.blocks.map((node) =>
+          blocks: blocks.map((node) =>
             node.id === nodeId
               ? ({
                   ...node,
@@ -156,17 +160,18 @@ export const useEditorStore = create<EditorState>((set) => ({
         },
       };
     }),
-
   updateNodeHeight: (nodeId, height) =>
     set((state) => {
       if (!state.document) return state;
 
       console.log("HEIGHT UPDATE", nodeId, height);
 
+      const blocks = getDocumentBlocks(state.document);
+
       return {
         document: {
           ...state.document,
-          blocks: state.document.blocks.map((node) =>
+          blocks: blocks.map((node) =>
             node.id === nodeId
               ? {
                   ...node,
@@ -176,5 +181,4 @@ export const useEditorStore = create<EditorState>((set) => ({
           ),
         },
       };
-    }),
-}));
+    }),}));

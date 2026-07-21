@@ -1,5 +1,6 @@
 import { EditorDocument } from "../types/document";
 import { RenderPage } from "../types/RenderPage";
+import { getDocumentBlocks } from "./normalize-document";
 
 import {
   createRenderPage,

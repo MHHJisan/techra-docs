@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 import { HeadingNode } from "../types/node";
 import { useEditorStore } from "../store/editor-store";
@@ -11,8 +11,42 @@ interface Props {
 
 export default function Heading({ node }: Props) {
   const updateNode = useEditorStore((state) => state.updateNode);
+  const updateNodeHeight = useEditorStore((state) => state.updateNodeHeight);
 
   const ref = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    if (!ref.current) return;
+
+    if (document.activeElement !== ref.current) {
+      ref.current.textContent = node.text;
+    }
+  }, [node.text]);
+
+  useEffect(() => {
+    if (!ref.current) return;
+
+    const update = () => {
+      if (!ref.current) return;
+
+      const style = getComputedStyle(ref.current);
+      const marginTop = parseFloat(style.marginTop);
+      const marginBottom = parseFloat(style.marginBottom);
+
+      const height = Math.ceil(
+        ref.current.getBoundingClientRect().height + marginTop + marginBottom,
+      );
+
+      updateNodeHeight(node.id, height);
+    };
+
+    update();
+
+    const observer = new ResizeObserver(update);
+    observer.observe(ref.current);
+
+    return () => observer.disconnect();
+  }, [node.id, updateNodeHeight]);
 
   return (
     <h1
@@ -26,12 +60,9 @@ export default function Heading({ node }: Props) {
         marginTop: `${node.spacingBefore}px`,
         marginBottom: `${node.spacingAfter}px`,
       }}
-      onBlur={() => {
-        if (!ref.current) return;
-
+      onInput={(e) => {
         updateNode(node.id, {
-          text: ref.current.textContent ?? "",
-          height: ref.current.scrollHeight,
+          text: e.currentTarget.textContent ?? "",
         });
       }}
     >

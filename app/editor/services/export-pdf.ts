@@ -1,6 +1,7 @@
 "use client";
 
 import { EditorDocument } from "../types/document";
+import { paginate } from "../utils/paginate";
 
 export async function exportPDF(editorDocument: EditorDocument) {
   // Dynamically import ONLY in browser
@@ -11,7 +12,9 @@ export async function exportPDF(editorDocument: EditorDocument) {
   container.style.width = "210mm";
   container.style.background = "#ffffff";
 
-  editorDocument.pages.forEach((page) => {
+  const pages = paginate(editorDocument);
+
+  pages.forEach((page) => {
     const pageDiv = window.document.createElement("div");
 
     pageDiv.style.width = "210mm";
@@ -20,19 +23,37 @@ export async function exportPDF(editorDocument: EditorDocument) {
     pageDiv.style.boxSizing = "border-box";
     pageDiv.style.pageBreakAfter = "always";
 
-    page.nodes.forEach((node) => {
-      const element =
-        node.type === "heading"
-          ? window.document.createElement("h1")
-          : window.document.createElement("p");
+    page.blocks.forEach((node) => {
+      switch (node.type) {
+        case "heading": {
+          const element = window.document.createElement("h1");
 
-      element.innerText = node.text;
-      element.style.fontSize = `${node.fontSize}px`;
-      element.style.textAlign = node.align;
-      element.style.whiteSpace = "pre-wrap";
-      element.style.lineHeight = "1.8";
+          element.innerText = node.text;
+          element.style.fontSize = `${node.fontSize}px`;
+          element.style.textAlign = node.align;
+          element.style.whiteSpace = "pre-wrap";
+          element.style.lineHeight = "1.8";
 
-      pageDiv.appendChild(element);
+          pageDiv.appendChild(element);
+          break;
+        }
+
+        case "paragraph": {
+          const element = window.document.createElement("p");
+
+          element.innerText = node.text;
+          element.style.fontSize = `${node.fontSize}px`;
+          element.style.textAlign = node.align;
+          element.style.whiteSpace = "pre-wrap";
+          element.style.lineHeight = "1.8";
+
+          pageDiv.appendChild(element);
+          break;
+        }
+
+        default:
+          break;
+      }
     });
 
     container.appendChild(pageDiv);
