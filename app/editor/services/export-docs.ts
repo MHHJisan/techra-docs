@@ -12,9 +12,9 @@ import { saveAs } from "file-saver";
 import { EditorDocument } from "../types/document";
 
 export async function exportDOCX(document: EditorDocument) {
-  const sections = document.pages.map((page) => ({
+  const sections = document.blocks.map((page) => ({
     properties: {},
-    children: page.nodes.map((node) => {
+    children: page.blocks.map((node) => {
       switch (node.type) {
         case "heading":
           return new Paragraph({

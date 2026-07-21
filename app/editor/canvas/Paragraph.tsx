@@ -29,7 +29,7 @@ export default function Paragraph({ node }: Props) {
   useEffect(() => {
     if (!ref.current) return;
 
-    const observer = new ResizeObserver(() => {
+    const update = () => {
       if (!ref.current) return;
 
       const style = getComputedStyle(ref.current);
@@ -37,11 +37,18 @@ export default function Paragraph({ node }: Props) {
       const marginTop = parseFloat(style.marginTop);
       const marginBottom = parseFloat(style.marginBottom);
 
-      updateNodeHeight(
-        node.id,
-        Math.ceil(ref.current.scrollHeight + marginTop + marginBottom),
+      const height = Math.ceil(
+        ref.current.getBoundingClientRect().height + marginTop + marginBottom,
       );
-    });
+
+      // console.log("Paragraph height:", height);
+
+      updateNodeHeight(node.id, height);
+    };
+
+    update();
+
+    const observer = new ResizeObserver(update);
 
     observer.observe(ref.current);
 

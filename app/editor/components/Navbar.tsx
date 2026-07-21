@@ -21,9 +21,9 @@ const LANGUAGES = [
 ] as const;
 
 export default function Navbar() {
-  console.log(useEditorStore);
+  // console.log(useEditorStore);
   const language = useEditorStore((state) => state.language);
-  console.log("language", language);
+  // console.log("language", language);
   const setLanguage = useEditorStore((state) => state.setLanguage);
 
   const { t } = useTranslation("navbar");

@@ -93,7 +93,6 @@ export default function Toolbar() {
         <button
           onClick={() => {
             if (document) {
-              console.log(document.pages[0].nodes);
               saveDocument(document);
               toast.success("Document saved successfully!");
             }

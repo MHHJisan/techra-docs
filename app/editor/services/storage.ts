@@ -11,9 +11,9 @@ export function getDocuments(): SavedDocument[] {
 }
 
 export function saveDocuments(documents: SavedDocument[]) {
-  console.log("Saving...", documents);
+  // console.log("Saving...", documents);
 
   localStorage.setItem(STORAGE_KEY, JSON.stringify(documents));
 
-  console.log(localStorage.getItem(STORAGE_KEY));
+  // console.log(localStorage.getItem(STORAGE_KEY));
 }

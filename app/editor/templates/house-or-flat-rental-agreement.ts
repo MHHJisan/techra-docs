@@ -81,7 +81,7 @@ export const houseOrFlatRentalAgreementTemplate: EditorDocument = {
 ১২। সরকারি যাবতীয় ট্যাক্স বা বিল, যেমন— বিদ্যুৎ, পানি ও গ্যাস বিল ইত্যাদি বৃদ্ধি প্রাপ্ত হইলে দ্বিতীয় পক্ষ/বাড়াটিয়া সেই অনুপাতে বর্ধিত ভাড়া প্রদান করিতে বাধ্য থাকিবেন।`,
     ),
 
-    // heading("page-title-5", "পৃষ্ঠা # ৫"),
+    heading("page-title-5", "পৃষ্ঠা # ৫"),
 
     paragraph(
       "conditions-page-5",

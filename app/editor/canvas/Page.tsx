@@ -1,5 +1,10 @@
 "use client";
 
+import {
+  PAGE_HEIGHT,
+  PAGE_PADDING_BOTTOM,
+  PAGE_PADDING_TOP,
+} from "../factories/render-page";
 import { DocumentNode } from "../types/node";
 import { RenderPage } from "../types/RenderPage";
 import NodeRenderer from "./NodeRenderer";
@@ -27,7 +32,11 @@ export default function Page({ page }: Props) {
           padding: `${PAGE_PADDING}mm`,
           paddingBottom: `${PAGE_PADDING + FOOTER_HEIGHT}mm`,
           boxSizing: "border-box",
-          height: "100%",
+          height:
+            PAGE_HEIGHT -
+            PAGE_PADDING_TOP -
+            PAGE_PADDING_BOTTOM -
+            FOOTER_HEIGHT,
         }}
       >
         {page.blocks.map((node: DocumentNode) => (

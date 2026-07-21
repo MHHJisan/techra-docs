@@ -140,6 +140,8 @@ export const useEditorStore = create<EditorState>((set) => ({
     set((state) => {
       if (!state.document) return state;
 
+      console.log("TEXT UPDATE", nodeId);
+
       return {
         document: {
           ...state.document,
@@ -158,6 +160,8 @@ export const useEditorStore = create<EditorState>((set) => ({
   updateNodeHeight: (nodeId, height) =>
     set((state) => {
       if (!state.document) return state;
+
+      console.log("HEIGHT UPDATE", nodeId, height);
 
       return {
         document: {
