@@ -32,7 +32,15 @@ export default function Paragraph({ node }: Props) {
     const observer = new ResizeObserver(() => {
       if (!ref.current) return;
 
-      updateNodeHeight(node.id, ref.current.scrollHeight);
+      const style = getComputedStyle(ref.current);
+
+      const marginTop = parseFloat(style.marginTop);
+      const marginBottom = parseFloat(style.marginBottom);
+
+      updateNodeHeight(
+        node.id,
+        Math.ceil(ref.current.scrollHeight + marginTop + marginBottom),
+      );
     });
 
     observer.observe(ref.current);
@@ -45,11 +53,13 @@ export default function Paragraph({ node }: Props) {
       ref={ref}
       contentEditable
       suppressContentEditableWarning
-      className="mb-5 whitespace-pre-wrap outline-none"
+      className="whitespace-pre-wrap outline-none"
       style={{
         fontSize: node.fontSize,
         textAlign: node.align,
         lineHeight: 1.8,
+        marginTop: `${node.spacingBefore}px`,
+        marginBottom: `${node.spacingAfter}px`,
       }}
       onInput={(e) => {
         updateNode(node.id, {

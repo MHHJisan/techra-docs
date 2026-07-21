@@ -8,9 +8,12 @@ export const PAGE_PADDING_BOTTOM = 60;
 export const PAGE_PADDING_LEFT = 60;
 export const PAGE_PADDING_RIGHT = 60;
 
-export function createRenderPage(id: string): RenderPage {
+export const FOOTER_HEIGHT = 50;
+
+export function createRenderPage(id: string, pageNumber: number): RenderPage {
   return {
     id,
+    pageNumber,
 
     width: PAGE_WIDTH,
     height: PAGE_HEIGHT,

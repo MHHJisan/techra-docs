@@ -22,8 +22,9 @@ export default function Heading({ node }: Props) {
       style={{
         fontSize: node.fontSize,
         textAlign: node.align,
-        // marginBottom: 20,
-        outline: "none",
+        lineHeight: 1.8,
+        marginTop: `${node.spacingBefore}px`,
+        marginBottom: `${node.spacingAfter}px`,
       }}
       onBlur={() => {
         if (!ref.current) return;
