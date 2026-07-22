@@ -3,21 +3,24 @@
 import { useMemo } from "react";
 
 import { useEditorStore } from "../store/editor-store";
+
+import { layoutDocument } from "../utils/layout-engine";
 import { paginate } from "../utils/paginate";
 
 import Page from "./Page";
 
 export default function Canvas() {
   const document = useEditorStore((state) => state.document);
+
   const zoom = useEditorStore((state) => state.zoom);
 
   const pages = useMemo(() => {
     if (!document) return [];
 
-    return paginate(document);
-  }, [document]);
+    const layout = layoutDocument(document);
 
-  console.log("Canvas pages:", pages.length);
+    return paginate(layout);
+  }, [document]);
 
   if (!document) {
     return (

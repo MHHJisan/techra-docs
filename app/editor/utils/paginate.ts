@@ -1,6 +1,6 @@
-import { EditorDocument } from "../types/document";
+import { LayoutBlock } from "../types/layout";
+import { RenderItem } from "../types/render-item";
 import { RenderPage } from "../types/RenderPage";
-// import { getDocumentBlocks } from "./normalize-document";
 
 import {
   createRenderPage,
@@ -10,69 +10,104 @@ import {
   FOOTER_HEIGHT,
 } from "../factories/render-page";
 
-export function paginate(document: EditorDocument): RenderPage[] {
+export function paginate(layout: LayoutBlock[]): RenderPage[] {
   const pages: RenderPage[] = [];
 
   let pageNumber = 1;
 
-  let currentPage = createRenderPage(`page-${pageNumber}`, pageNumber);
+  let page = createRenderPage(`page-${pageNumber}`, pageNumber);
 
-  let currentHeight = PAGE_PADDING_TOP;
-
+  // Content height with extremely conservative buffer (40% of available space)
   const CONTENT_HEIGHT =
-    PAGE_HEIGHT - PAGE_PADDING_TOP - PAGE_PADDING_BOTTOM - FOOTER_HEIGHT;
-  //temporary from chatgpt
-  for (let i = 0; i < (document.blocks?.length ?? 0); i++) {
-    const block = document.blocks![i];
+    (PAGE_HEIGHT - PAGE_PADDING_TOP - PAGE_PADDING_BOTTOM - FOOTER_HEIGHT) *
+    0.4;
 
-    if (block.pageBreakBefore && currentPage.blocks.length > 0) {
-      console.log("====== FORCED NEW PAGE ======");
+  let usedHeight = 0;
 
-      pages.push(currentPage);
+  for (const block of layout) {
+    let start = 0;
 
-      pageNumber++;
+    while (start < block.lines.length) {
+      let end = start;
 
-      currentPage = createRenderPage(`page-${pageNumber}`, pageNumber);
+      let consumed = 0;
 
-      currentHeight = PAGE_PADDING_TOP;
+      // Add spacingBefore for the first line of a block on a page
+      const spacingBefore = start === 0 ? block.node.spacingBefore : 0;
+
+      // Check if block can fit with spacingBefore
+      if (usedHeight + spacingBefore > CONTENT_HEIGHT && usedHeight > 0) {
+        // Move entire block to next page
+        pages.push(page);
+        pageNumber++;
+        page = createRenderPage(`page-${pageNumber}`, pageNumber);
+        usedHeight = 0;
+        continue;
+      }
+
+      while (
+        end < block.lines.length &&
+        usedHeight + spacingBefore + consumed + block.lines[end].height <=
+          CONTENT_HEIGHT
+      ) {
+        consumed += block.lines[end].height;
+
+        end++;
+      }
+
+      if (start === end) {
+        // Block doesn't fit, move to next page
+        pages.push(page);
+
+        pageNumber++;
+
+        page = createRenderPage(`page-${pageNumber}`, pageNumber);
+
+        usedHeight = 0;
+
+        continue;
+      }
+
+      // Add spacingAfter for the last line of a block on a page
+      const spacingAfter =
+        end === block.lines.length ? block.node.spacingAfter : 0;
+
+      // Check if adding spacingAfter would cause overflow
+      const totalHeight = spacingBefore + consumed + spacingAfter;
+      if (totalHeight > CONTENT_HEIGHT) {
+        // Move the last line to next page to avoid overflow
+        end--;
+        consumed -= block.lines[end].height;
+      }
+
+      page.renderItems.push({
+        block,
+
+        lineStart: start,
+
+        lineEnd: end,
+      });
+
+      usedHeight +=
+        spacingBefore +
+        consumed +
+        (end === block.lines.length ? block.node.spacingAfter : 0);
+
+      start = end;
+
+      if (start < block.lines.length) {
+        pages.push(page);
+
+        pageNumber++;
+
+        page = createRenderPage(`page-${pageNumber}`, pageNumber);
+
+        usedHeight = 0;
+      }
     }
-
-    const blockHeight =
-      Math.max(block.height ?? 40, 40) +
-      block.spacingBefore +
-      block.spacingAfter;
-
-    const availableHeight = CONTENT_HEIGHT - currentHeight;
-
-    console.log({
-      block: block.id,
-      blockHeight,
-      currentHeight,
-      availableHeight,
-      totalAfterInsert: currentHeight + blockHeight,
-      contentLimit: CONTENT_HEIGHT,
-    });
-
-    if (blockHeight > availableHeight && currentPage.blocks.length > 0) {
-      console.log("========== NEW PAGE ==========");
-
-      pages.push(currentPage);
-
-      pageNumber++;
-
-      currentPage = createRenderPage(`page-${pageNumber}`, pageNumber);
-
-      currentHeight = PAGE_PADDING_TOP;
-    }
-
-    currentPage.blocks.push(block);
-
-    currentHeight += blockHeight;
   }
 
-  pages.push(currentPage);
-
-  console.log("TOTAL PAGES:", pages.length);
+  pages.push(page);
 
   return pages;
 }

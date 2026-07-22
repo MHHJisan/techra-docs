@@ -12,7 +12,8 @@ export async function exportPDF(editorDocument: EditorDocument) {
   container.style.width = "210mm";
   container.style.background = "#ffffff";
 
-  const pages = paginate(editorDocument);
+  // paginate expects an array of layout blocks
+  const pages = paginate(editorDocument.blocks);
 
   pages.forEach((page) => {
     const pageDiv = window.document.createElement("div");
@@ -24,35 +25,37 @@ export async function exportPDF(editorDocument: EditorDocument) {
     pageDiv.style.pageBreakAfter = "always";
 
     page.blocks.forEach((node) => {
-      switch (node.type) {
-        case "heading": {
-          const element = window.document.createElement("h1");
+      if ("type" in node) {
+        switch (node.type) {
+          case "heading": {
+            const element = window.document.createElement("h1");
 
-          element.innerText = node.text;
-          element.style.fontSize = `${node.fontSize}px`;
-          element.style.textAlign = node.align;
-          element.style.whiteSpace = "pre-wrap";
-          element.style.lineHeight = "1.8";
+            element.innerText = node.text;
+            element.style.fontSize = `${node.fontSize}px`;
+            if ("align" in node) element.style.textAlign = node.align;
+            element.style.whiteSpace = "pre-wrap";
+            element.style.lineHeight = "1.8";
 
-          pageDiv.appendChild(element);
-          break;
+            pageDiv.appendChild(element);
+            break;
+          }
+
+          case "paragraph": {
+            const element = window.document.createElement("p");
+
+            element.innerText = node.text;
+            element.style.fontSize = `${node.fontSize}px`;
+            if ("align" in node) element.style.textAlign = node.align;
+            element.style.whiteSpace = "pre-wrap";
+            element.style.lineHeight = "1.8";
+
+            pageDiv.appendChild(element);
+            break;
+          }
+
+          default:
+            break;
         }
-
-        case "paragraph": {
-          const element = window.document.createElement("p");
-
-          element.innerText = node.text;
-          element.style.fontSize = `${node.fontSize}px`;
-          element.style.textAlign = node.align;
-          element.style.whiteSpace = "pre-wrap";
-          element.style.lineHeight = "1.8";
-
-          pageDiv.appendChild(element);
-          break;
-        }
-
-        default:
-          break;
       }
     });
 

@@ -1,21 +1,31 @@
 "use client";
 
-import { DocumentNode } from "../types/node";
+import { RenderItem } from "../types/render-item";
 
 import Heading from "./Heading";
 import Paragraph from "./Paragraph";
 
 interface Props {
-  node: DocumentNode;
+  item: RenderItem;
 }
 
-export default function NodeRenderer({ node }: Props) {
-  switch (node.type) {
+export default function NodeRenderer({ item }: Props) {
+  switch (item.block.node.type) {
     case "heading":
-      return <Heading node={node} />;
+      return (
+        <Heading
+          node={item.block.node}
+          lines={item.block.lines.slice(item.lineStart, item.lineEnd)}
+        />
+      );
 
     case "paragraph":
-      return <Paragraph node={node} />;
+      return (
+        <Paragraph
+          node={item.block.node}
+          lines={item.block.lines.slice(item.lineStart, item.lineEnd)}
+        />
+      );
 
     default:
       return null;

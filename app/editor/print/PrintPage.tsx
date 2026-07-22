@@ -23,8 +23,8 @@ export default function PrintPage({ page }: Props) {
         pageBreakAfter: "always",
       }}
     >
-      {page.blocks.map((node: DocumentNode) => (
-        <PrintNodeRenderer key={node.id} node={node} />
+      {page.blocks.map((node, index) => (
+        <PrintNodeRenderer key={index} node={node as unknown as DocumentNode} />
       ))}
     </div>
   );

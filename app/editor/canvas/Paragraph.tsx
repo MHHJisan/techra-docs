@@ -4,12 +4,14 @@ import { useEffect, useRef } from "react";
 
 import { ParagraphNode } from "../types/node";
 import { useEditorStore } from "../store/editor-store";
+import { LayoutLine } from "../types/layout";
 
 interface Props {
   node: ParagraphNode;
+  lines: LayoutLine[];
 }
 
-export default function Paragraph({ node }: Props) {
+export default function Paragraph({ node, lines }: Props) {
   const updateNode = useEditorStore((state) => state.updateNode);
 
   const updateNodeHeight = useEditorStore((state) => state.updateNodeHeight);
@@ -21,9 +23,11 @@ export default function Paragraph({ node }: Props) {
     if (!ref.current) return;
 
     if (document.activeElement !== ref.current) {
-      ref.current.textContent = node.text;
+      // Get the lines from the layout block
+      const textToRender = lines.map((line) => line.text).join("\n");
+      ref.current.textContent = textToRender;
     }
-  }, [node.text]);
+  }, [node.text, lines]);
 
   // Observe actual rendered height
   useEffect(() => {
@@ -55,6 +59,9 @@ export default function Paragraph({ node }: Props) {
     return () => observer.disconnect();
   }, [node.id, updateNodeHeight]);
 
+  // Get the lines to render
+  const textToRender = lines.map((line) => line.text).join("\n");
+
   return (
     <div
       ref={ref}
@@ -73,6 +80,8 @@ export default function Paragraph({ node }: Props) {
           text: e.currentTarget.textContent ?? "",
         });
       }}
-    />
+    >
+      {textToRender}
+    </div>
   );
 }

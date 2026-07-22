@@ -9,7 +9,12 @@ interface Props {
 }
 
 export default function PrintView({ document: editorDocument }: Props) {
-  const pages = paginate(editorDocument);
+  // blocks come from the editor document (DocumentNode[]). Paginate expects
+  // layout blocks; cast through unknown to the paginate parameter type to
+  // satisfy the type system without using `any`.
+  const pages = paginate(
+    editorDocument.blocks as unknown as Parameters<typeof paginate>[0]
+  );
 
   return (
     <main

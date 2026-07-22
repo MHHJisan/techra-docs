@@ -8,8 +8,10 @@ import {
   PAGE_PADDING_TOP,
   FOOTER_HEIGHT,
 } from "../factories/render-page";
-import { DocumentNode } from "../types/node";
+
+import { LayoutBlock } from "../types/layout";
 import { RenderPage } from "../types/RenderPage";
+
 import NodeRenderer from "./NodeRenderer";
 
 interface Props {
@@ -17,47 +19,52 @@ interface Props {
 }
 
 export default function Page({ page }: Props) {
-  console.log("Rendering page", page.pageNumber, "blocks:", page.blocks.length);
   return (
     <div
-      className="relative mx-auto border border-gray-300 bg-white shadow-xl"
+      className="header relative mx-auto border border-gray-300 bg-white shadow-xl"
       style={{
         width: page.width,
         height: page.height,
         backgroundColor: page.background,
       }}
     >
-      {/* Content */}
       <div
+        className="content"
         style={{
-          paddingTop: `${PAGE_PADDING_TOP}px`,
-          paddingBottom: `${PAGE_PADDING_BOTTOM + FOOTER_HEIGHT}px`,
-          paddingLeft: `${PAGE_PADDING_LEFT}px`,
-          paddingRight: `${PAGE_PADDING_RIGHT}px`,
+          paddingTop: PAGE_PADDING_TOP,
+          paddingLeft: PAGE_PADDING_LEFT,
+          paddingRight: PAGE_PADDING_RIGHT,
           boxSizing: "border-box",
-          height:
-            PAGE_HEIGHT -
-            PAGE_PADDING_TOP -
-            PAGE_PADDING_BOTTOM -
-            FOOTER_HEIGHT,
+          overflow: "visible",
+          minHeight:
+            (PAGE_HEIGHT -
+              PAGE_PADDING_TOP -
+              PAGE_PADDING_BOTTOM -
+              FOOTER_HEIGHT) *
+            0.5,
         }}
       >
-        {page.blocks.map((node: DocumentNode) => (
-          <NodeRenderer key={node.id} node={node} />
+        {page.renderItems.map((item) => (
+          <NodeRenderer
+            key={item.block.node.id + "-" + item.lineStart}
+            item={item}
+          />
         ))}
       </div>
 
-      {/* Footer */}
       <div
-        className="absolute border-t border-gray-300 text-sm text-gray-600"
+        className="footer absolute border-t border-gray-300 text-sm text-gray-600"
         style={{
-          left: `${PAGE_PADDING_LEFT}px`,
-          right: `${PAGE_PADDING_RIGHT}px`,
-          bottom: `${PAGE_PADDING_BOTTOM}px`,
-          height: `${FOOTER_HEIGHT}px`,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          height: PAGE_PADDING_BOTTOM + FOOTER_HEIGHT,
           display: "flex",
-          alignItems: "center",
-          justifyContent: "flex-end",
+          alignItems: "flex-end",
+          justifyContent: "right",
+          zIndex: 10,
+          backgroundColor: page.background,
+          paddingTop: PAGE_PADDING_BOTTOM,
         }}
       >
         চলমান পাতা ..... / {page.pageNumber}

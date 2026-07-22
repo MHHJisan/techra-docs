@@ -4,12 +4,14 @@ import { useEffect, useRef } from "react";
 
 import { HeadingNode } from "../types/node";
 import { useEditorStore } from "../store/editor-store";
+import { LayoutLine } from "../types/layout";
 
 interface Props {
   node: HeadingNode;
+  lines: LayoutLine[];
 }
 
-export default function Heading({ node }: Props) {
+export default function Heading({ node, lines }: Props) {
   const updateNode = useEditorStore((state) => state.updateNode);
   const updateNodeHeight = useEditorStore((state) => state.updateNodeHeight);
 
@@ -19,9 +21,11 @@ export default function Heading({ node }: Props) {
     if (!ref.current) return;
 
     if (document.activeElement !== ref.current) {
-      ref.current.textContent = node.text;
+      // Get the lines from the layout block
+      const textToRender = lines.map((line) => line.text).join("\n");
+      ref.current.textContent = textToRender;
     }
-  }, [node.text]);
+  }, [node.text, lines]);
 
   useEffect(() => {
     if (!ref.current) return;
@@ -48,6 +52,9 @@ export default function Heading({ node }: Props) {
     return () => observer.disconnect();
   }, [node.id, updateNodeHeight]);
 
+  // Get the lines to render
+  const textToRender = lines.map((line) => line.text).join("\n");
+
   return (
     <h1
       ref={ref}
@@ -66,7 +73,7 @@ export default function Heading({ node }: Props) {
         });
       }}
     >
-      {node.text}
+      {textToRender}
     </h1>
   );
 }

@@ -1,4 +1,4 @@
-import { DocumentNode } from "./node";
+import { RenderItem } from "./render-item";
 
 export interface RenderPage {
   id: string;
@@ -11,5 +11,5 @@ export interface RenderPage {
 
   background: string;
 
-  blocks: DocumentNode[];
+  renderItems: RenderItem[];
 }

@@ -1,3 +1,4 @@
+import { heading, paragraph } from "../factories/node";
 import { EditorDocument } from "../types/document";
 
 export const moneyReceiptTemplate: EditorDocument = {
@@ -5,85 +6,12 @@ export const moneyReceiptTemplate: EditorDocument = {
 
   title: "Money Receipt",
 
-  pages: [
-    {
-      id: "page-1",
+  blocks: [
+    heading("page-title", " MONEY RECEIPT"),
 
-      width: 794,
-
-      height: 1123,
-
-      background: "#ffffff",
-
-      blocks: [
-        {
-          id: "title",
-
-          type: "text",
-
-          x: 250,
-          y: 70,
-
-          width: 300,
-          height: 40,
-
-          rotation: 0,
-
-          locked: false,
-
-          visible: true,
-
-          text: "MONEY RECEIPT",
-
-          fontFamily: "Arial",
-
-          fontSize: 26,
-
-          color: "#111827",
-
-          bold: true,
-
-          italic: false,
-
-          underline: true,
-
-          align: "center",
-        },
-
-        {
-          id: "body",
-
-          type: "text",
-
-          x: 70,
-          y: 150,
-
-          width: 650,
-          height: 350,
-
-          rotation: 0,
-
-          locked: false,
-
-          visible: true,
-
-          text: "Received with thanks from __________________ an amount of __________________ only.",
-
-          fontFamily: "Arial",
-
-          fontSize: 16,
-
-          color: "#333333",
-
-          bold: false,
-
-          italic: false,
-
-          underline: false,
-
-          align: "left",
-        },
-      ],
-    },
+    paragraph(
+      "boyd",
+      "Received with thanks from __________________ an amount of __________________ only.",
+    ),
   ],
 };
