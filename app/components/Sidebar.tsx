@@ -1,9 +1,9 @@
 "use client";
 
 // import SidebarHeader from "../sidebar/SidebarHeader";
-import SidebarSearch from "../sidebar/SidebarSearch";
-import SidebarCategories from "../sidebar/SidebarCategories";
-import SidebarFooter from "../sidebar/SidebarFooter";
+import SidebarSearch from "../editor/sidebar/SidebarSearch";
+import SidebarCategories from "../editor/sidebar/SidebarCategories";
+import SidebarFooter from "../editor/sidebar/SidebarFooter";
 
 export default function Sidebar() {
   return (

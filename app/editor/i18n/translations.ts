@@ -10,7 +10,8 @@ const en = {
     templates: "Templates",
     favorites: "Favorites",
     documents: "My Documents",
-    settings: "Settings",
+    // settings: "Settings",]
+    tools: "Tools",
   },
 
   sidebar: {
@@ -111,7 +112,7 @@ const bn: typeof en = {
     templates: "টেমপ্লেট",
     favorites: "প্রিয়",
     documents: "আমার ডকুমেন্ট",
-    settings: "সেটিংস",
+    tools: "টুলস",
   },
 
   sidebar: {

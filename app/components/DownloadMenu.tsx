@@ -3,10 +3,10 @@
 import { useState, useRef, useEffect } from "react";
 import { Download, FileText, FileType, ChevronDown } from "lucide-react";
 
-import { useEditorStore } from "../store/editor-store";
+import { useEditorStore } from "../editor/store/editor-store";
 
-import { exportPDF } from "../services/export-pdf";
-import { exportDOCX } from "../services/export-docs";
+import { exportPDF } from "../editor/services/export-pdf";
+import { exportDOCX } from "../editor/services/export-docs";
 
 export default function DownloadMenu() {
   const editorDocument = useEditorStore((s) => s.document);

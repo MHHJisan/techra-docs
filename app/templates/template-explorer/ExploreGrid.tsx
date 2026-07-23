@@ -1,6 +1,6 @@
 "use client";
 
-import { DOCUMENT_TEMPLATES } from "../constants/templates";
+import { DOCUMENT_TEMPLATES } from "../../editor/constants/templates";
 import TemplateCard from "./TemplateCard";
 
 export default function ExplorerGrid() {

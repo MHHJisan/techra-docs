@@ -27,7 +27,7 @@ export type EditorView =
   | "templates"
   | "favorites"
   | "documents"
-  | "settings";
+  | "tools";
 
 interface EditorState {
   document: EditorDocument | null;

@@ -4,8 +4,8 @@ import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 
 import { Bell, Search, Settings, ChevronDown, Languages } from "lucide-react";
 
-import { useEditorStore } from "../store/editor-store";
-import { useTranslation } from "../hooks/useTranslation";
+import { useEditorStore } from "../editor/store/editor-store";
+import { useTranslation } from "../editor/hooks/useTranslation";
 import Image from "next/image";
 
 const LANGUAGES = [

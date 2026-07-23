@@ -1,3 +1,5 @@
+"use client";
+
 import {
   House,
   LayoutTemplate,
@@ -8,19 +10,23 @@ import {
   Undo2,
   Redo2,
   LucideIcon,
+  RefreshCw,
 } from "lucide-react";
 
-import { useTranslation } from "../hooks/useTranslation";
+import { useTranslation } from "../editor/hooks/useTranslation";
 import { toast } from "react-hot-toast";
-import { useEditorStore, EditorView } from "../store/editor-store";
-import { saveDocument } from "../services/save-document";
-import { printDocument } from "../services/print-document";
+import { useEditorStore, EditorView } from "../editor/store/editor-store";
+import { saveDocument } from "../editor/services/save-document";
+import { printDocument } from "../editor/services/print-document";
 import DownloadMenu from "./DownloadMenu";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function Toolbar() {
   const { t } = useTranslation("toolbar");
 
-  const currentView = useEditorStore((state) => state.currentView);
+  const router = useRouter();
+
+  const pathname = usePathname();
 
   const setCurrentView = useEditorStore((state) => state.setCurrentView);
 
@@ -30,26 +36,37 @@ export default function Toolbar() {
     key: EditorView;
     icon: LucideIcon;
     label: string;
+    href: string;
   }[] = [
     {
       key: "home",
       icon: House,
       label: t.home,
+      href: "/editor",
     },
     {
       key: "templates",
       icon: LayoutTemplate,
       label: t.templates,
+      href: "/templates",
     },
     {
       key: "favorites",
       icon: Star,
       label: t.favorites,
+      href: "/favourites",
     },
     {
-      key: "documents",
+      key: "myDocuments",
       icon: FolderOpen,
       label: t.documents,
+      href: "/myDocuments",
+    },
+    {
+      key: "tools",
+      icon: RefreshCw,
+      label: t.tools,
+      href: "/tools",
     },
   ];
 
@@ -59,12 +76,38 @@ export default function Toolbar() {
         {menuItems.map((item) => {
           const Icon = item.icon;
 
-          const isActive = currentView === item.key;
-
+          // const isActive = pathname === item.href;
+          const isActive = pathname.startsWith(item.href);
           return (
             <button
               key={item.key}
-              onClick={() => setCurrentView(item.key)}
+              onClick={() => {
+                switch (item.key) {
+                  case "home":
+                    setCurrentView("home");
+                    router.push("/editor");
+                    break;
+
+                  case "templates":
+                    setCurrentView("templates");
+                    router.push("/templates");
+                    break;
+
+                  case "favorites":
+                    setCurrentView("favorites");
+                    router.push("/favourites");
+                    break;
+
+                  case "myDocuments":
+                    setCurrentView("myDocuments");
+                    router.push("/myDocuments");
+                    break;
+
+                  case "tools":
+                    router.push("/tools");
+                    break;
+                }
+              }}
               className={`flex items-center gap-2 rounded-full px-5 py-2 text-sm font-medium transition-all duration-200 ${
                 isActive
                   ? "bg-white text-blue-600 shadow"

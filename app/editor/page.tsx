@@ -1,7 +1,16 @@
-// import EditorLayout from "@/components/editor/layout/EditorLayout";
+"use client";
 
-import EditorLayout from "@/app/editor/components/EditorLayout";
+import Sidebar from "../components/Sidebar";
+import Canvas from "./canvas/Canvas";
 
-export default function EditorPage() {
-  return <EditorLayout />;
+export default function HomeView() {
+  return (
+    <>
+      <div className="flex flex-1 overflow-hidden">
+        <Sidebar />
+        <Canvas />
+        {/* <Properties /> */}
+      </div>
+    </>
+  );
 }
